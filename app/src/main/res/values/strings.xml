@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Weather Forecast</string>
+    <string name="action_settings">Settings</string>
+    <string name="permission_rationale">You need Internet connection in order to receive forecasts</string>
+</resources>
