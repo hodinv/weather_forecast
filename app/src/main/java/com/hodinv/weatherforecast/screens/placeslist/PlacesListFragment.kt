@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.Place
 import com.hodinv.weatherforecast.mvp.MvpFragment
+import com.hodinv.weatherforecast.service.NetworkServiceControllerImpl
 
 /**
  * A placeholder fragment containing a simple view.
@@ -25,7 +26,7 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
     }
 
     override fun createPresenter(): PlacesListContract.Presenter {
-        return PlacesListPresenter()
+        return PlacesListPresenter(NetworkServiceControllerImpl(activity))
     }
 
     override fun getMvpView(): PlacesListContract.View {
