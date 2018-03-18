@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment
 
 abstract class MvpFragment<V : MvpView, R : MvpRouter, P : MvpPresenter<V, R>> : Fragment() {
 
-    var presenter: P? = null
+    var presenter: P? = createPresenter()
 
     abstract fun createPresenter(): P
     abstract fun getMvpView(): V
