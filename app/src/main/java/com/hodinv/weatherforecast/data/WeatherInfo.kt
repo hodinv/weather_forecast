@@ -1,5 +1,6 @@
 package com.hodinv.weatherforecast.data
 
+
 /**
  * Created by vasily on 18.03.18.
  */

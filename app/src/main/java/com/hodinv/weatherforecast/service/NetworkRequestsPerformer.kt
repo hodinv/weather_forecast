@@ -3,6 +3,7 @@ package com.hodinv.weatherforecast.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.network.NetworkProvider
@@ -17,7 +18,7 @@ class NetworkRequestsPerformer : Service() {
 
 
     lateinit var networkProvider: NetworkProvider
-    val databaseProvider = DatabaseProvider()
+    val databaseProvider = DatabaseProvider.instance
 
     override fun onBind(intent: Intent): IBinder? {
         throw UnsupportedOperationException("Not yet implemented")
@@ -31,10 +32,10 @@ class NetworkRequestsPerformer : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             GET_WEATHR_ACTION -> {
-                databaseProvider.getCitiesList().toObservable()
+                databaseProvider.getPlacesService().getCitiesIdsList().toObservable()
                         .observeOn(Schedulers.io())
                         .subscribeOn(Schedulers.io())
-                        .filter { databaseProvider.getCityLastUpdateTime(it) < System.currentTimeMillis() - REFRESH_TIME }
+                        .filter { databaseProvider.getPlacesService().getCityUpdateTime(it) < System.currentTimeMillis() - REFRESH_TIME }
                         .switchMap {
                             networkProvider.getWeatherService().getWeather(it)
                         }
