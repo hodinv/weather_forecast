@@ -41,5 +41,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     implementation 'io.reactivex.rxjava2:rxkotlin:2+'
 
+    // orm
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    kapt "android.arch.persistence.room:compiler:1.0.0"
+
 
 }

@@ -1,18 +1,20 @@
 package com.hodinv.weatherforecast.database
 
+import android.arch.persistence.room.Room
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.services.PlacesService
+import com.hodinv.weatherforecast.database.services.WeatherService
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Created by vasily on 18.03.18.
  */
 class DatabaseProvider {
 
-    var helper: DatabaseHelper
-    var db: SQLiteDatabase
+    private var db: AppDatabase
+    private val weatherListeners = CopyOnWriteArrayList<() -> Unit>()
 
     /*
         fun getCitiesList(): List<Int> {
@@ -21,19 +23,35 @@ class DatabaseProvider {
 
      */
     private constructor(context: Context) {
-        helper = DatabaseHelper(context)
-        db = helper.writableDatabase
+        db = Room.databaseBuilder(context, AppDatabase::class.java, "database")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries() // todo: remove
+                .build()
     }
 
     fun getPlacesService(): PlacesService {
-        return PlacesService(db)
+        return PlacesService(db.placesDao())
     }
 
-
-    fun putWeather(cityId: Int, info: WeatherInfo, time: Long) {
-        Log.d("WEATHER", "for " + info.name + " id = " + cityId)
+    fun getWeatherService(): WeatherService {
+        return WeatherService(db.weatherDao(), getPlacesService(), this::notifyWeatherListeners)
     }
 
+    fun notifyWeatherListeners() {
+        weatherListeners.forEach { it() }
+    }
+
+    fun addWeatherListener(callback: () -> Unit) {
+        weatherListeners.add(callback)
+    }
+
+    fun removeWeatherListener(callback: () -> Unit) {
+        weatherListeners.remove(callback)
+    }
+
+    fun addForecastListener(cityId: Int, callback: () -> Unit) {
+
+    }
 
     companion object {
         lateinit var instance: DatabaseProvider

@@ -1,46 +1,30 @@
 package com.hodinv.weatherforecast.database.services
 
-import android.content.ContentValues
-import android.database.sqlite.SQLiteDatabase
-import android.util.Log
-import com.hodinv.weatherforecast.database.tables.PlacesTable
+import com.hodinv.weatherforecast.data.Place
+import com.hodinv.weatherforecast.database.dao.PlacesDao
+
 
 /**
  * Created by vasily on 19.03.18.
  */
-class PlacesService(val db: SQLiteDatabase) {
+class PlacesService(val placesDao: PlacesDao) {
 
-    fun getCitiesIdsList(): List<Int> {
-        val query = db.query(PlacesTable().name, PlacesTable().columns, null, null, null, null, null)
-        val result = ArrayList<Int>()
-        query.moveToFirst()
-        val indexId = query.getColumnIndex(PlacesTable.FIELD_ID)
-        do {
-            result.add(query.getInt(indexId))
-        } while (query.moveToNext())
-        return result
+    fun getPlaces(): List<Place> {
+        return placesDao.getAll()
     }
 
-
     fun addCity(cityId: Int) {
-        val values = ContentValues()
-        values.put(PlacesTable.FIELD_ID, cityId)
-        db.beginTransaction()
-        db.insert(PlacesTable().name, null, values)
-        db.setTransactionSuccessful()
-        db.endTransaction()
+        val place = Place(id = cityId, updated = 0L)
+        placesDao.addNew(place)
     }
 
     fun deleteCity(cityId: Int) {
-
+        placesDao.deleteById(cityId)
     }
 
-    fun getCityUpdateTime(cityId: Int): Long {
-        return 0L;
-    }
-
-    fun setCityUpdateTime(cityId: Int) {
-
+    fun setCityUpdateTimeToCurrent(cityId: Int) {
+        val place = Place(id = cityId, updated = System.currentTimeMillis())
+        placesDao.update(place)
     }
 
 

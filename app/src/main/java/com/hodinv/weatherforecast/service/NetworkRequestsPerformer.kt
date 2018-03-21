@@ -32,15 +32,15 @@ class NetworkRequestsPerformer : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             GET_WEATHR_ACTION -> {
-                databaseProvider.getPlacesService().getCitiesIdsList().toObservable()
+                databaseProvider.getPlacesService().getPlaces().toObservable()
                         .observeOn(Schedulers.io())
                         .subscribeOn(Schedulers.io())
-                        .filter { databaseProvider.getPlacesService().getCityUpdateTime(it) < System.currentTimeMillis() - REFRESH_TIME }
+                        .filter { it.updated < System.currentTimeMillis() - REFRESH_TIME }
                         .switchMap {
-                            networkProvider.getWeatherService().getWeather(it)
+                            networkProvider.getWeatherService().getWeather(it.id)
                         }
                         .subscribe({ result ->
-                            databaseProvider.putWeather(result.id, result, System.currentTimeMillis())
+                            databaseProvider.getWeatherService().putWeather(result)
                         }, { error ->
                             error.printStackTrace()
                         })

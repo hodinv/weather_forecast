@@ -10,5 +10,6 @@ class Application : Application() {
     override fun onCreate() {
         super.onCreate()
         DatabaseProvider.initialize(this)
+        //DatabaseProvider.instance.getPlacesService().addCity(588409)
     }
 }
