@@ -1,9 +1,12 @@
 package com.hodinv.weatherforecast.service
 
+import io.reactivex.Observable
+
+
 /**
  * Created by vasily on 18.03.18.
  */
-interface NetworkServiceController {
-
-    fun requestWeather()
+interface NetworkServiceController : NetworkService {
+    fun waitForControllerReady(): Observable<Unit>
+    fun isForecastRequestRunning(): Boolean
 }
