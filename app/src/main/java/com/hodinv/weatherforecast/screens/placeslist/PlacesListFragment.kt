@@ -2,12 +2,10 @@ package com.hodinv.weatherforecast.screens.placeslist
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hodinv.weatherforecast.R
-import com.hodinv.weatherforecast.data.Place
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.mvp.MvpFragment
@@ -18,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_places_list.*
  * A placeholder fragment containing a simple view.
  */
 class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContract.Router, PlacesListContract.Presenter>(), PlacesListContract.View {
-    private var adapter = PlacesListAdapter()
+    lateinit private var adapter: PlacesListAdapter
 
     override fun setPlacesList(places: List<WeatherInfo>) {
         adapter.setPlaces(places)
@@ -48,6 +46,7 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list.setHasFixedSize(true)
+        adapter = PlacesListAdapter(presenter!!)
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
     }

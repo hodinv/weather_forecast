@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="permission_rationale">You need Internet connection in order to receive forecasts</string>
     <string name="weather_api">8ae1bdb8d64866ebbb50f82ea8ba3a63</string>
+    <string name="wind_caption">Wind:</string>
+    <string name="wind_measure_m_s">m/s</string>
 </resources>

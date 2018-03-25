@@ -23,9 +23,7 @@ class PlacesListPresenter(val serviceController: NetworkServiceController, val w
 
     fun onWeatherUpdate() {
         Log.d("DbUpdate", "updateed")
-        val items = weatherService.getWeatherInfo()
-        Log.d("DbUpdate", "size=" + items.size)
-        view?.setPlacesList(items)//weatherService.getWeatherInfo())
+        view?.setPlacesList(weatherService.getWeatherInfo())
     }
 
     private var updates: Disposable? = null
