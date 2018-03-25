@@ -1,6 +1,7 @@
 package com.hodinv.weatherforecast.screens.placeslist
 
 import com.hodinv.weatherforecast.data.Place
+import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.mvp.MvpPresenter
 import com.hodinv.weatherforecast.mvp.MvpRouter
 import com.hodinv.weatherforecast.mvp.MvpView
@@ -10,17 +11,17 @@ import com.hodinv.weatherforecast.mvp.MvpView
  */
 interface PlacesListContract {
     interface View : MvpView {
-        fun setPlacesList(places: List<Place>)
+        fun setPlacesList(places: List<WeatherInfo>)
         fun setLoading(loading: Boolean)
         fun setShowEmpty(showEmpty: Boolean)
     }
 
     interface Router : MvpRouter {
-        fun showDetail(place: Place)
+        fun showDetail(cityId: Int)
     }
 
     interface Presenter : MvpPresenter<View, Router> {
-        fun placePressed(place: Place)
+        fun placePressed(place: WeatherInfo)
         fun refreshData()
     }
 }

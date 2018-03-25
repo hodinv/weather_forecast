@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(),
         PermissionsContract.Router,
         PlacesListContract.Router {
 
-    override fun showDetail(place: Place) {
+    override fun showDetail(cityId: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

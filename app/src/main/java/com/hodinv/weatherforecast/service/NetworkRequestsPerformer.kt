@@ -39,10 +39,11 @@ class NetworkRequestsPerformer : Service(), NetworkService {
         if (weatherRequestIsRunning)
             return false;
         weatherRequestIsRunning = true;
+        notifyWeatherRequest()
         databaseProvider.getPlacesService().getPlaces().toObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .filter { it.updated < System.currentTimeMillis() - REFRESH_TIME }
+                .filter { it.updated < System.currentTimeMillis() - REFRESH_TIME || force }
                 .switchMap {
                     networkProvider.getWeatherService().getWeather(it.id)
                 }

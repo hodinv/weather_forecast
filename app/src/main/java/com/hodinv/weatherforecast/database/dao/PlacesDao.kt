@@ -15,7 +15,7 @@ interface PlacesDao {
     @Insert
     fun addNew(place: Place)
 
-    @Query("DELETE FROM place WHERE id = :arg0")
+    @Query("DELETE FROM place WHERE id = :id")
     fun deleteById(id: Int)
 
     @Update

@@ -15,7 +15,7 @@ interface WeatherDao {
     @Query("SELECT * FROM weatherInfo")
     fun getAll(): List<WeatherInfo>
 
-    @Query("SELECT * FROM weatherInfo WHERE id = :arg0")
+    @Query("SELECT * FROM weatherInfo WHERE id = :id")
     fun getById(id: Int): WeatherInfo?
 
     @Insert
