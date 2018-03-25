@@ -30,6 +30,8 @@ class PlacesListAdapter(val presenter: PlacesListContract.Presenter) : RecyclerV
             notifyDataSetChanged()
         } else {
             //todo:  update and insert + delete
+            items = ArrayList(places)
+            notifyDataSetChanged()
         }
 
     }

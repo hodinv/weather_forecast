@@ -8,6 +8,12 @@ import com.hodinv.weatherforecast.database.dao.PlacesDao
  * Created by vasily on 19.03.18.
  */
 class PlacesDbService(val placesDao: PlacesDao) : PlacesService {
+    override fun hasCity(id: Int): Boolean {
+        val items = placesDao.getAll()
+        var result = false
+        items.forEach { if (it.id == id) result = true }
+        return result
+    }
 
     override fun getPlaces(): List<Place> {
         return placesDao.getAll()

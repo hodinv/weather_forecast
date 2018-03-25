@@ -67,6 +67,11 @@ class NetworkServiceControllerImpl(val context: Context) : NetworkServiceControl
         return bondedService?.requestWeather(force) ?: false
     }
 
+    override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
+        return bondedService?.searchAndAddNewPlace(placeName) ?: Observable.just(false)
+    }
+
+
     override fun requestForecast(cityId: Int, force: Boolean): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

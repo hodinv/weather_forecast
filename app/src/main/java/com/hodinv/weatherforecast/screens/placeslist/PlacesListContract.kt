@@ -14,6 +14,7 @@ interface PlacesListContract {
         fun setPlacesList(places: List<WeatherInfo>)
         fun setLoading(loading: Boolean)
         fun setShowEmpty(showEmpty: Boolean)
+        fun notAdded()
     }
 
     interface Router : MvpRouter {
@@ -23,5 +24,6 @@ interface PlacesListContract {
     interface Presenter : MvpPresenter<View, Router> {
         fun placePressed(place: WeatherInfo)
         fun refreshData()
+        fun addCity(name: String)
     }
 }

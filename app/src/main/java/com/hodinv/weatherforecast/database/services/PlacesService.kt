@@ -7,6 +7,7 @@ import com.hodinv.weatherforecast.data.Place
  */
 interface PlacesService {
     fun getPlaces(): List<Place>
+    fun hasCity(id: Int): Boolean
     fun addCity(cityId: Int)
     fun deleteCity(cityId: Int)
     fun setCityUpdateTimeToCurrent(cityId: Int)

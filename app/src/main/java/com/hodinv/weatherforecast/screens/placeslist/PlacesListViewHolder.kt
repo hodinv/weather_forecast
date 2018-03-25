@@ -26,6 +26,7 @@ class PlacesListViewHolder(val view: View, presenter: PlacesListContract.Present
     fun setItem(place: WeatherInfo) {
         this.place = place
         city.text = place.name
+        // todo: extract to strings
         temp.text = "%+.1f°C".format(TempHelper.kelvinToCelsuis(place.main.temp))
         if (Math.abs(place.main.temp_max - place.main.temp) > 0.09 ||
                 Math.abs(place.main.temp_min - place.main.temp) > 0.09) {

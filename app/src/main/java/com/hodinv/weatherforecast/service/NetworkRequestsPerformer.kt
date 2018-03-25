@@ -10,6 +10,7 @@ import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.network.NetworkProvider
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +22,20 @@ import java.util.concurrent.CopyOnWriteArrayList
  * Call to town is performed every 10 minutes or if it was forced
  */
 class NetworkRequestsPerformer : Service(), NetworkService {
+    override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
+        return networkProvider.getWeatherService().getWeather(placeName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap {
+                    val found = databaseProvider.getPlacesService().hasCity(it.id)
+                    databaseProvider.getWeatherService().putWeather(it)
+                    if (!found) {
+                        databaseProvider.getPlacesService().addCity(it.id)
+                    }
+                    Observable.just(!found)
+                }
+    }
+
     override fun getStateSubscription(): Observable<Unit> {
         return Observable.create { consumer ->
             weatherRequestCallbacks.add(WeakReference({ consumer.onNext(Unit) }))
@@ -32,6 +47,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     }
 
     var weatherRequestIsRunning = false;
+    // todo: add marker for search ranning
     val weatherRequestCallbacks = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
 
 

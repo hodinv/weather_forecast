@@ -6,5 +6,5 @@ package com.hodinv.weatherforecast.data
 class Wind {
 
     var speed: Float = 0.0f
-    var deg: Int = 0
+    var deg: Float = 0.0f
 }

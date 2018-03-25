@@ -5,4 +5,5 @@
     <string name="weather_api">8ae1bdb8d64866ebbb50f82ea8ba3a63</string>
     <string name="wind_caption">Wind:</string>
     <string name="wind_measure_m_s">m/s</string>
+    <string name="new_city_title">Enter city/town name</string>
 </resources>

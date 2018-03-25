@@ -18,7 +18,7 @@ class PermissionsFragment : MvpFragment<PermissionsContract.View, PermissionsCon
 
     override fun getNotGranter(): Array<String> {
         return PERMISSIONS.
-                filter { PermissionChecker.checkSelfPermission(activity, it) != PackageManager.PERMISSION_GRANTED }.
+                filter { PermissionChecker.checkSelfPermission(activity!!, it) != PackageManager.PERMISSION_GRANTED }.
                 toTypedArray()
 
     }
@@ -36,7 +36,7 @@ class PermissionsFragment : MvpFragment<PermissionsContract.View, PermissionsCon
     }
 
     override fun requestPermissions(notGranter: Array<String>) {
-        ActivityCompat.requestPermissions(activity, notGranter, PERMISSIONS_REQ);
+        ActivityCompat.requestPermissions(activity!!, notGranter, PERMISSIONS_REQ);
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
