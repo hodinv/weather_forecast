@@ -30,6 +30,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
         if (addingRequestIsRunning)
             return Observable.just(false);
         addingRequestIsRunning = true;
+        notifyWeatherRequest()
         return networkProvider.getWeatherService().getWeather(placeName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

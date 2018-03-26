@@ -72,7 +72,7 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
                 .subscribe({
                     Log.d("ServiceReady", "yes")
                     view?.setLoading(true)
-                    serviceController.requestWeather(true)
+                    serviceController.requestWeather(false)
                 })
     }
 
