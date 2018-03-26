@@ -1,12 +1,12 @@
 package com.hodinv.weatherforecast.service
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import io.reactivex.Observable
-import android.content.ComponentName
-import com.hodinv.weatherforecast.service.NetworkRequestsPerformer.LocalBinder
-import android.os.IBinder
 import android.content.ServiceConnection
+import android.os.IBinder
+import com.hodinv.weatherforecast.service.NetworkRequestsPerformer.LocalBinder
+import io.reactivex.Observable
 import java.util.concurrent.CopyOnWriteArrayList
 
 

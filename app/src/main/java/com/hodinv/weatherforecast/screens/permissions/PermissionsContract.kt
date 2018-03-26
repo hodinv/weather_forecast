@@ -8,16 +8,18 @@ import com.hodinv.weatherforecast.mvp.MvpView
  * Created by vasily on 18.03.18.
  */
 interface PermissionsContract {
-    interface View: MvpView {
+    interface View : MvpView {
         fun getNotGranter(): Array<String>
         fun requestPermissions(notGranter: Array<String>)
 
     }
-    interface Router: MvpRouter {
+
+    interface Router : MvpRouter {
         fun startPlacesList()
         fun finish()
     }
-    interface Presenter: MvpPresenter<View, Router> {
+
+    interface Presenter : MvpPresenter<View, Router> {
         fun checkGrants(grantResults: IntArray)
     }
 }

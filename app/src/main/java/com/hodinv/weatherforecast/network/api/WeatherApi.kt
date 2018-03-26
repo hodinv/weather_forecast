@@ -1,6 +1,6 @@
 package com.hodinv.weatherforecast.network.api
 
-import com.hodinv.weatherforecast.data.WeatherInfo
+import com.hodinv.weatherforecast.data.WeatherInfoFromNet
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -10,9 +10,9 @@ import retrofit2.http.Query
  */
 interface WeatherApi {
     @GET("data/2.5/weather")
-    fun getPlaceInfo(@Query("appid") appid: String, @Query("q") city: String): Observable<WeatherInfo>
+    fun getPlaceInfo(@Query("appid") appid: String, @Query("q") city: String): Observable<WeatherInfoFromNet>
 
     @GET("data/2.5/weather")
-    fun getPlaceInfo(@Query("appid") appid: String, @Query("id") cityId: Int): Observable<WeatherInfo>
+    fun getPlaceInfo(@Query("appid") appid: String, @Query("id") cityId: Int): Observable<WeatherInfoFromNet>
 
 }

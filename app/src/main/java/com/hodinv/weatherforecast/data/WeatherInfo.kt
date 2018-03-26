@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey
  * Created by vasily on 18.03.18.
  */
 @Entity
-class WeatherInfo {
+open class WeatherInfo {
     @PrimaryKey(autoGenerate = false)
     var id: Int = 0
 
@@ -20,4 +20,6 @@ class WeatherInfo {
 
     @Embedded
     var main: MainInfo = MainInfo()
+
+    var weatherInfo: String = ""
 }

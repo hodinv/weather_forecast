@@ -10,8 +10,6 @@ import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.network.NetworkProvider
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import java.lang.ref.WeakReference
@@ -35,7 +33,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                 }
                 .flatMap {
                     val found = databaseProvider.getPlacesService().hasCity(it.id)
-                    databaseProvider.getWeatherService().putWeather(it)
+                    databaseProvider.getWeatherService().putWeather(it.getDbWeatherInfo())
                     if (!found) {
                         databaseProvider.getPlacesService().addCity(it.id)
                     }
@@ -77,7 +75,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                 //.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            databaseProvider.getWeatherService().putWeather(result)
+                            databaseProvider.getWeatherService().putWeather(result.getDbWeatherInfo())
                         }, { error ->
                     error.printStackTrace()
                 }, {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
-import com.hodinv.weatherforecast.data.Place
 import com.hodinv.weatherforecast.screens.forecast.ForecastContract
 import com.hodinv.weatherforecast.screens.forecast.ForecastFragment
 import com.hodinv.weatherforecast.screens.permissions.PermissionsContract

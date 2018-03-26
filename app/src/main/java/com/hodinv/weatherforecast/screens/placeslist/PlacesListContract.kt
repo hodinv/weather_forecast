@@ -1,6 +1,5 @@
 package com.hodinv.weatherforecast.screens.placeslist
 
-import com.hodinv.weatherforecast.data.Place
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.mvp.MvpPresenter
 import com.hodinv.weatherforecast.mvp.MvpRouter

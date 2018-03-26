@@ -17,9 +17,7 @@ class PermissionsFragment : MvpFragment<PermissionsContract.View, PermissionsCon
 
 
     override fun getNotGranter(): Array<String> {
-        return PERMISSIONS.
-                filter { PermissionChecker.checkSelfPermission(activity!!, it) != PackageManager.PERMISSION_GRANTED }.
-                toTypedArray()
+        return PERMISSIONS.filter { PermissionChecker.checkSelfPermission(activity!!, it) != PackageManager.PERMISSION_GRANTED }.toTypedArray()
 
     }
 

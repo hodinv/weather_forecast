@@ -1,7 +1,6 @@
 package com.hodinv.weatherforecast.screens.placeslist
 
 import android.util.Log
-import com.hodinv.weatherforecast.data.Place
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.services.PlacesService
 import com.hodinv.weatherforecast.database.services.WeatherService
@@ -10,7 +9,6 @@ import com.hodinv.weatherforecast.mvp.BaseMvpPresenter
 import com.hodinv.weatherforecast.service.NetworkServiceController
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.internal.schedulers.NewThreadWorker
 
 /**
  * Created by vasily on 18.03.18.

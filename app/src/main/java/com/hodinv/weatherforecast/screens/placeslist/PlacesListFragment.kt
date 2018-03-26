@@ -2,22 +2,17 @@ package com.hodinv.weatherforecast.screens.placeslist
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.InputType
+import android.util.Log
+import android.view.*
+import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.mvp.MvpFragment
 import com.hodinv.weatherforecast.service.NetworkServiceControllerImpl
 import kotlinx.android.synthetic.main.fragment_places_list.*
-import android.widget.TextView
-import android.content.Context.MODE_PRIVATE
-import android.R.id.edit
-import com.afollestad.materialdialogs.MaterialDialog
-import android.text.InputType
-import android.util.Log
-import android.view.*
-import android.widget.Toast
-import com.hodinv.weatherforecast.MainActivity
-import java.util.*
 
 
 /**

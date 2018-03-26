@@ -9,6 +9,7 @@ interface MvpPresenter<V : MvpView, R : MvpRouter> {
      * Set view state according to model values
      */
     fun onStart()
+
     fun onStop()
 }
 
