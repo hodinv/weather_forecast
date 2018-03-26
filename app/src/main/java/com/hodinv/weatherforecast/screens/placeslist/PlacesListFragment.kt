@@ -29,9 +29,7 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
     lateinit private var adapter: PlacesListAdapter
 
     override fun setPlacesList(places: List<WeatherInfo>) {
-        activity?.runOnUiThread {
-            adapter.setPlaces(places)
-        }
+        adapter.setPlaces(places)
     }
 
     override fun setLoading(loading: Boolean) {

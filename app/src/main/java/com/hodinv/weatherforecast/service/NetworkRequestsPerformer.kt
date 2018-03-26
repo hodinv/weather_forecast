@@ -56,7 +56,6 @@ class NetworkRequestsPerformer : Service(), NetworkService {
 
     var weatherRequestIsRunning = false;
     var addingRequestIsRunning = false;
-    // todo: add marker for search ranning
     val weatherRequestCallbacks = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
 
 
@@ -89,10 +88,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     private fun notifyWeatherRequest() {
         weatherRequestCallbacks.removeAll { it.get() == null }
         weatherRequestCallbacks.forEach {
-            val ref = it.get()
-            if (ref != null) {
-                ref()
-            }
+            it.get()?.invoke()
         }
     }
 

@@ -25,15 +25,8 @@ class PlacesListAdapter(val presenter: PlacesListContract.Presenter) : RecyclerV
     }
 
     fun setPlaces(places: List<WeatherInfo>) {
-        if (items.isEmpty()) {
-            items = ArrayList(places)
-            notifyDataSetChanged()
-        } else {
-            //todo:  update and insert + delete
-            items = ArrayList(places)
-            notifyDataSetChanged()
-        }
-
+        items = ArrayList(places)
+        notifyDataSetChanged()
     }
 
 }

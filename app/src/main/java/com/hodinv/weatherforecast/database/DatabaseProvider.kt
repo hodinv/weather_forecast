@@ -6,6 +6,8 @@ import android.util.Log
 import com.hodinv.weatherforecast.database.services.PlacesDbService
 import com.hodinv.weatherforecast.database.services.WeatherDbService
 import com.hodinv.weatherforecast.database.services.WeatherUpdatesProvider
+import io.reactivex.Observable
+import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -13,8 +15,10 @@ import java.util.concurrent.CopyOnWriteArrayList
  */
 class DatabaseProvider : WeatherUpdatesProvider {
 
+
     private var db: AppDatabase
-    private val weatherListeners = CopyOnWriteArrayList<() -> Unit>()
+    private val weatherListeners = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
+    private val forecastListeners = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
 
     /*
         fun getCitiesList(): List<Int> {
@@ -37,23 +41,25 @@ class DatabaseProvider : WeatherUpdatesProvider {
         return WeatherDbService(db.weatherDao(), getPlacesService(), ::notifyWeatherListeners)
     }
 
-    fun notifyWeatherListeners() {
-        Log.d("DB", "notify")
-        weatherListeners.forEach { it() }
+    private fun notifyWeatherListeners() {
+        Log.d("DB", "notify, listeners size = " + weatherListeners.size)
+        weatherListeners.removeAll { it.get() == null }
+        Log.d("DB", "notify, listeners size after clean = " + weatherListeners.size)
+        weatherListeners.forEach { it.get()?.invoke() }
     }
 
-    //todo:: make rx
-    override fun addWeatherListener(callback: () -> Unit) {
-        weatherListeners.add(callback)
+
+    override fun getWeatherUpdates(): Observable<Unit> {
+        return Observable.create { consumer ->
+            weatherListeners.add(WeakReference({ consumer.onNext(Unit) }))
+
+        }
     }
 
-    override fun removeWeatherListener(callback: () -> Unit) {
-        weatherListeners.remove(callback)
+    override fun getForecastUpdate(cityId: Int): Observable<Unit> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun addForecastListener(cityId: Int, callback: () -> Unit) {
-
-    }
 
     companion object {
         lateinit var instance: DatabaseProvider
