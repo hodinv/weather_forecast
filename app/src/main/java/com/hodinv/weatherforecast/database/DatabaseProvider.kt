@@ -3,9 +3,7 @@ package com.hodinv.weatherforecast.database
 import android.arch.persistence.room.Room
 import android.content.Context
 import android.util.Log
-import com.hodinv.weatherforecast.database.services.PlacesDbService
-import com.hodinv.weatherforecast.database.services.WeatherDbService
-import com.hodinv.weatherforecast.database.services.WeatherUpdatesProvider
+import com.hodinv.weatherforecast.database.services.*
 import io.reactivex.Observable
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
@@ -18,14 +16,8 @@ class DatabaseProvider : WeatherUpdatesProvider {
 
     private var db: AppDatabase
     private val weatherListeners = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
-    private val forecastListeners = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
+    private val forecastListeners = CopyOnWriteArrayList<WeakReference<(cityId: Int) -> Unit>>()
 
-    /*
-        fun getCitiesList(): List<Int> {
-        return listOf(588409, 2643743, 625144)
-    }
-
-     */
     private constructor (context: Context) {
         db = Room.databaseBuilder(context, AppDatabase::class.java, "database")
                 .fallbackToDestructiveMigration()
@@ -41,6 +33,10 @@ class DatabaseProvider : WeatherUpdatesProvider {
         return WeatherDbService(db.weatherDao(), getPlacesService(), ::notifyWeatherListeners)
     }
 
+    fun getForecastService(): ForecastService {
+        return ForecastDbService(db.forecastDao())
+    }
+
     private fun notifyWeatherListeners() {
         Log.d("DB", "notify, listeners size = " + weatherListeners.size)
         weatherListeners.removeAll { it.get() == null }
@@ -48,16 +44,24 @@ class DatabaseProvider : WeatherUpdatesProvider {
         weatherListeners.forEach { it.get()?.invoke() }
     }
 
+    private fun notifyForecastListeners(cityId: Int) {
+        forecastListeners.removeAll { it.get() == null }
+        Log.d("DB", "notify, listeners size after clean = " + weatherListeners.size)
+        forecastListeners.forEach { it.get()?.invoke(cityId) }
+    }
 
     override fun getWeatherUpdates(): Observable<Unit> {
         return Observable.create { consumer ->
             weatherListeners.add(WeakReference({ consumer.onNext(Unit) }))
-
         }
     }
 
     override fun getForecastUpdate(cityId: Int): Observable<Unit> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Observable.create { consumer ->
+            forecastListeners.add(WeakReference({ id ->
+                if (cityId == id) consumer.onNext(Unit)
+            }))
+        }
     }
 
 

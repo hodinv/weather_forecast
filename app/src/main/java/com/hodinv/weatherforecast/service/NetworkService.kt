@@ -11,4 +11,5 @@ interface NetworkService {
     fun isWeatherRequestRunning(): Boolean
     fun getStateSubscription(): Observable<Unit>
     fun searchAndAddNewPlace(placeName: String): Observable<Boolean>
+    fun isForecastRequestRunning(cityId: Int): Boolean
 }

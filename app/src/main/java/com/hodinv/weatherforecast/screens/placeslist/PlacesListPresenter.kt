@@ -54,10 +54,12 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
 
     override fun onStart() {
         super.onStart()
-        weatherSubscription = weatherUpdatesProvider.getWeatherUpdates().observeOn(AndroidSchedulers.mainThread())
+        weatherSubscription = weatherUpdatesProvider.getWeatherUpdates()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { onWeatherUpdate() }
         view?.setPlacesList(weatherService.getWeatherInfo())
         updates = serviceController.getStateSubscription()
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     Log.d("ServiceUpdate", "=" + serviceController.isWeatherRequestRunning())

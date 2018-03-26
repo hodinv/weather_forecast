@@ -73,7 +73,7 @@ class NetworkServiceControllerImpl(val context: Context) : NetworkServiceControl
 
 
     override fun requestForecast(cityId: Int, force: Boolean): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return bondedService?.requestForecast(cityId, force) ?: false
     }
 
 
@@ -81,8 +81,8 @@ class NetworkServiceControllerImpl(val context: Context) : NetworkServiceControl
         return bondedService?.isWeatherRequestRunning() ?: false
     }
 
-    override fun isForecastRequestRunning(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun isForecastRequestRunning(cityId: Int): Boolean {
+        return bondedService?.isForecastRequestRunning(cityId) ?: false
     }
 
 }

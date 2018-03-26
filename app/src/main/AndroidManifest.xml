@@ -26,13 +26,8 @@
         <service
             android:name=".service.NetworkRequestsPerformer"
             android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.hodinv.weatherforecast.GET_WEATHER" />
-                <action android:name="com.hodinv.weatherforecast.GET_FORECAST" />
-            </intent-filter>
+            android:exported="true" />
 
-        </service>
     </application>
 
 </manifest>

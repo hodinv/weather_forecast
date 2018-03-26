@@ -1,5 +1,6 @@
 package com.hodinv.weatherforecast.network
 
+import com.hodinv.weatherforecast.data.Forecast
 import com.hodinv.weatherforecast.data.WeatherInfoFromNet
 import com.hodinv.weatherforecast.network.api.WeatherApi
 import io.reactivex.Observable
@@ -14,5 +15,9 @@ class WeatherService(val api: WeatherApi, val key: String) {
 
     fun getWeather(cityId: Int): Observable<WeatherInfoFromNet> {
         return api.getPlaceInfo(key, cityId)
+    }
+
+    fun getForecast(cityId: Int): Observable<Forecast> {
+        return api.getForecast(key, cityId)
     }
 }

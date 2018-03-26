@@ -20,6 +20,12 @@ import java.util.concurrent.CopyOnWriteArrayList
  * Call to town is performed every 10 minutes or if it was forced
  */
 class NetworkRequestsPerformer : Service(), NetworkService {
+
+
+    override fun isForecastRequestRunning(cityId: Int): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
         if (addingRequestIsRunning)
             return Observable.just(false);
@@ -116,18 +122,8 @@ class NetworkRequestsPerformer : Service(), NetworkService {
         networkProvider = NetworkProvider(getString(R.string.weather_api))
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            GET_WEATHR_ACTION -> {
-
-            }
-        }
-        return START_NOT_STICKY;
-    }
 
     companion object {
-        val GET_WEATHR_ACTION = "com.hodinv.weatherforecast.GET_WEATHER"
-        val GET_FORECAST_ACTION = "com.hodinv.weatherforecast.GET_FORECAST"
         val REFRESH_TIME = 1000 * 60 * 5;// 5 min
     }
 }
