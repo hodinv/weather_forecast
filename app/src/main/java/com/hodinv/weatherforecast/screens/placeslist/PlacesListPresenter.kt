@@ -3,6 +3,7 @@ package com.hodinv.weatherforecast.screens.placeslist
 import android.util.Log
 import com.hodinv.weatherforecast.data.Place
 import com.hodinv.weatherforecast.data.WeatherInfo
+import com.hodinv.weatherforecast.database.services.PlacesService
 import com.hodinv.weatherforecast.database.services.WeatherService
 import com.hodinv.weatherforecast.database.services.WeatherUpdatesProvider
 import com.hodinv.weatherforecast.mvp.BaseMvpPresenter
@@ -14,8 +15,16 @@ import io.reactivex.internal.schedulers.NewThreadWorker
 /**
  * Created by vasily on 18.03.18.
  */
-class PlacesListPresenter(val serviceController: NetworkServiceController, val weatherUpdatesProvider: WeatherUpdatesProvider, val weatherService: WeatherService) : BaseMvpPresenter<PlacesListContract.View, PlacesListContract.Router>(), PlacesListContract.Presenter {
+class PlacesListPresenter(val serviceController: NetworkServiceController,
+                          val weatherUpdatesProvider: WeatherUpdatesProvider,
+                          val weatherService: WeatherService,
+                          val placesService: PlacesService) : BaseMvpPresenter<PlacesListContract.View, PlacesListContract.Router>(), PlacesListContract.Presenter {
+    override fun placeLongPressed(place: WeatherInfo) {
+        placesService.deleteCity(place.id)
+    }
+
     override fun addCity(name: String) {
+        view?.setLoading(true)
         serviceController.waitForControllerReady().subscribe {
             serviceController.searchAndAddNewPlace(name).observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
@@ -29,11 +38,11 @@ class PlacesListPresenter(val serviceController: NetworkServiceController, val w
     }
 
     override fun placePressed(place: WeatherInfo) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        router?.showDetail(place.id)
     }
 
     override fun refreshData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        serviceController.requestWeather(true)
     }
 
     fun onWeatherUpdate() {
@@ -47,13 +56,21 @@ class PlacesListPresenter(val serviceController: NetworkServiceController, val w
         super.onStart()
         weatherUpdatesProvider.addWeatherListener(::onWeatherUpdate)
         view?.setPlacesList(weatherService.getWeatherInfo())
-        updates = serviceController.getStateSubscription().subscribe {
-            Log.d("ServiceUpdate", "=" + serviceController.isWeatherRequestRunning())
-        }
-        serviceController.waitForControllerReady().subscribe({
-            Log.d("ServiceReady", "yes")
-            serviceController.requestWeather(true)
-        })
+        updates = serviceController.getStateSubscription()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    Log.d("ServiceUpdate", "=" + serviceController.isWeatherRequestRunning())
+                    if (!serviceController.isWeatherRequestRunning()) {
+                        view?.setLoading(false)
+                    }
+                }
+        serviceController.waitForControllerReady()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d("ServiceReady", "yes")
+                    view?.setLoading(true)
+                    serviceController.requestWeather(true)
+                })
     }
 
     override fun onStop() {

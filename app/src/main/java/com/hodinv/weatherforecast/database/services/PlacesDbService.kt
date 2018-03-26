@@ -2,12 +2,13 @@ package com.hodinv.weatherforecast.database.services
 
 import com.hodinv.weatherforecast.data.Place
 import com.hodinv.weatherforecast.database.dao.PlacesDao
+import com.hodinv.weatherforecast.database.dao.WeatherDao
 
 
 /**
  * Created by vasily on 19.03.18.
  */
-class PlacesDbService(val placesDao: PlacesDao) : PlacesService {
+class PlacesDbService(val placesDao: PlacesDao, val weatherDao: WeatherDao, val notifyAboutChanges: () -> Unit) : PlacesService {
     override fun hasCity(id: Int): Boolean {
         val items = placesDao.getAll()
         var result = false
@@ -26,6 +27,8 @@ class PlacesDbService(val placesDao: PlacesDao) : PlacesService {
 
     override fun deleteCity(cityId: Int) {
         placesDao.deleteById(cityId)
+        weatherDao.deleteById(cityId)
+        notifyAboutChanges()
     }
 
     override fun setCityUpdateTimeToCurrent(cityId: Int) {

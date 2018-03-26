@@ -23,17 +23,27 @@ import java.util.concurrent.CopyOnWriteArrayList
  */
 class NetworkRequestsPerformer : Service(), NetworkService {
     override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
+        if (addingRequestIsRunning)
+            return Observable.just(false);
+        addingRequestIsRunning = true;
         return networkProvider.getWeatherService().getWeather(placeName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
+                .doOnError {
+                    addingRequestIsRunning = false
+                    notifyWeatherRequest()
+                }
                 .flatMap {
                     val found = databaseProvider.getPlacesService().hasCity(it.id)
                     databaseProvider.getWeatherService().putWeather(it)
                     if (!found) {
                         databaseProvider.getPlacesService().addCity(it.id)
                     }
+                    addingRequestIsRunning = false
+                    notifyWeatherRequest()
                     Observable.just(!found)
                 }
+
     }
 
     override fun getStateSubscription(): Observable<Unit> {
@@ -43,10 +53,11 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     }
 
     override fun isWeatherRequestRunning(): Boolean {
-        return weatherRequestIsRunning
+        return weatherRequestIsRunning || addingRequestIsRunning
     }
 
     var weatherRequestIsRunning = false;
+    var addingRequestIsRunning = false;
     // todo: add marker for search ranning
     val weatherRequestCallbacks = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
 

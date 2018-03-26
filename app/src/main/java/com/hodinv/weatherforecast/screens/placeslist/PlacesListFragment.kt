@@ -2,9 +2,6 @@ package com.hodinv.weatherforecast.screens.placeslist
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.DatabaseProvider
@@ -16,6 +13,8 @@ import android.content.Context.MODE_PRIVATE
 import android.R.id.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import android.text.InputType
+import android.util.Log
+import android.view.*
 import android.widget.Toast
 import com.hodinv.weatherforecast.MainActivity
 import java.util.*
@@ -31,6 +30,7 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
         }
     }
 
+    private var refreshMenu: MenuItem? = null
     lateinit private var adapter: PlacesListAdapter
 
     override fun setPlacesList(places: List<WeatherInfo>) {
@@ -40,16 +40,16 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
     }
 
     override fun setLoading(loading: Boolean) {
-        // todo: not implemented
+        Log.d("setLoading", "=" + loading)
+        if (!loading) refresh.isRefreshing = false
+        refreshMenu?.isVisible = loading
     }
-
-    override fun setShowEmpty(showEmpty: Boolean) {
-        // todo: not implemented
-    }
-
 
     override fun createPresenter(): PlacesListContract.Presenter {
-        return PlacesListPresenter(NetworkServiceControllerImpl(activity!!), DatabaseProvider.instance, DatabaseProvider.instance.getWeatherService())
+        return PlacesListPresenter(NetworkServiceControllerImpl(activity!!),
+                DatabaseProvider.instance,
+                DatabaseProvider.instance.getWeatherService(),
+                DatabaseProvider.instance.getPlacesService())
     }
 
     override fun getMvpView(): PlacesListContract.View {
@@ -77,10 +77,21 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
                                 presenter?.addCity(input.toString())
                             }).show()
         }
+        refresh.setOnRefreshListener {
+            presenter?.refreshData()
+        }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_main, menu)
+        refreshMenu = menu?.findItem(R.id.menu_refreshing)
+        refreshMenu?.isVisible = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_places_list, container, false)
     }
 }

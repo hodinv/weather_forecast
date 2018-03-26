@@ -30,11 +30,11 @@ class DatabaseProvider : WeatherUpdatesProvider {
     }
 
     fun getPlacesService(): PlacesDbService {
-        return PlacesDbService(db.placesDao())
+        return PlacesDbService(db.placesDao(), db.weatherDao(), ::notifyWeatherListeners)
     }
 
     fun getWeatherService(): WeatherDbService {
-        return WeatherDbService(db.weatherDao(), getPlacesService(), this::notifyWeatherListeners)
+        return WeatherDbService(db.weatherDao(), getPlacesService(), ::notifyWeatherListeners)
     }
 
     fun notifyWeatherListeners() {

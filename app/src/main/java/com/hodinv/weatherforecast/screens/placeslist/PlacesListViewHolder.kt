@@ -1,5 +1,6 @@
 package com.hodinv.weatherforecast.screens.placeslist
 
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
@@ -19,7 +20,11 @@ class PlacesListViewHolder(val view: View, presenter: PlacesListContract.Present
     private var place: WeatherInfo? = null
 
     init {
-        view.setOnClickListener { if (place != null) presenter.placePressed(place!!) }
+        view.findViewById<CardView>(R.id.card).setOnClickListener { if (place != null) presenter.placePressed(place!!) }
+        view.findViewById<CardView>(R.id.card).setOnLongClickListener {
+            if (place != null) presenter.placeLongPressed(place!!)
+            true
+        }
     }
 
 

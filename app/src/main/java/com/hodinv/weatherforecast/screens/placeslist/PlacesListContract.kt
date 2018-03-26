@@ -13,7 +13,6 @@ interface PlacesListContract {
     interface View : MvpView {
         fun setPlacesList(places: List<WeatherInfo>)
         fun setLoading(loading: Boolean)
-        fun setShowEmpty(showEmpty: Boolean)
         fun notAdded()
     }
 
@@ -23,6 +22,7 @@ interface PlacesListContract {
 
     interface Presenter : MvpPresenter<View, Router> {
         fun placePressed(place: WeatherInfo)
+        fun placeLongPressed(place: WeatherInfo)
         fun refreshData()
         fun addCity(name: String)
     }
