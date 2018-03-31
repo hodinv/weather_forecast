@@ -6,4 +6,5 @@
     <string name="wind_caption">Wind:</string>
     <string name="wind_measure_m_s">m/s</string>
     <string name="new_city_title">Enter city/town name</string>
+    <string name="today">Today</string>
 </resources>

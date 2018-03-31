@@ -34,7 +34,7 @@ class DatabaseProvider : WeatherUpdatesProvider {
     }
 
     fun getForecastService(): ForecastService {
-        return ForecastDbService(db.forecastDao())
+        return ForecastDbService(db.forecastDao(), ::notifyWeatherListeners)
     }
 
     private fun notifyWeatherListeners() {

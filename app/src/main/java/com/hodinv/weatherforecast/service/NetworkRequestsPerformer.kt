@@ -7,12 +7,14 @@ import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import com.hodinv.weatherforecast.R
+import com.hodinv.weatherforecast.data.ForecastRecord
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.network.NetworkProvider
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import java.lang.ref.WeakReference
+import java.util.concurrent.ConcurrentSkipListSet
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -23,7 +25,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
 
 
     override fun isForecastRequestRunning(cityId: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return forecastsRunning.contains(cityId)
     }
 
     override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
@@ -63,6 +65,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
 
     var weatherRequestIsRunning = false;
     var addingRequestIsRunning = false;
+    var forecastsRunning = ConcurrentSkipListSet<Int>()
     val weatherRequestCallbacks = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
 
 
@@ -78,17 +81,22 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                 .switchMap {
                     networkProvider.getWeatherService().getWeather(it.id)
                 }
+
                 //.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
                             databaseProvider.getWeatherService().putWeather(result.getDbWeatherInfo())
-                        }, { error ->
-                    error.printStackTrace()
-                }, {
-                    Log.d("ISMAIN", "=" + (Looper.myLooper() == Looper.getMainLooper()))
-                    weatherRequestIsRunning = false;
-                    notifyWeatherRequest()
-                });
+                        },
+                        { error ->
+                            error.printStackTrace()
+                            weatherRequestIsRunning = false;
+                            notifyWeatherRequest()
+                        },
+                        {
+                            Log.d("ISMAIN", "=" + (Looper.myLooper() == Looper.getMainLooper()))
+                            weatherRequestIsRunning = false;
+                            notifyWeatherRequest()
+                        });
         return true;
     }
 
@@ -100,7 +108,23 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     }
 
     override fun requestForecast(cityId: Int, force: Boolean): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (forecastsRunning.contains(cityId))
+            return false
+        forecastsRunning.add(cityId)
+        notifyWeatherRequest()
+        networkProvider.getWeatherService().getForecast(cityId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnError {
+                    forecastsRunning.remove(cityId)
+                    notifyWeatherRequest()
+                }
+                .subscribe({ result ->
+                    databaseProvider.getForecastService().putForecast(ForecastRecord(result.city.id, result))
+                    forecastsRunning.remove(cityId)
+                    notifyWeatherRequest()
+                })
+        return true;
     }
 
 

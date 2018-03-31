@@ -45,8 +45,9 @@ class ForecastPresenter(val cityId: Int,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Log.d("ServiceReady", "yes")
-                    view?.setLoading(true)
-                    serviceController.requestForecast(cityId, true)
+                    if (serviceController.requestForecast(cityId, true)) {
+                        view?.setLoading(true)
+                    }
                 })
     }
 

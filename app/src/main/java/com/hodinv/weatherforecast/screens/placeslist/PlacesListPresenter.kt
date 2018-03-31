@@ -71,8 +71,9 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Log.d("ServiceReady", "yes")
-                    view?.setLoading(true)
-                    serviceController.requestWeather(false)
+                    if (serviceController.requestWeather(false)) {
+                        view?.setLoading(true)
+                    }
                 })
     }
 

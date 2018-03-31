@@ -1,22 +1,29 @@
 package com.hodinv.weatherforecast.screens.forecast
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.ForecastItem
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.mvp.MvpFragment
+import com.hodinv.weatherforecast.screens.placeslist.ForecastListAdapter
+import com.hodinv.weatherforecast.screens.placeslist.PlacesListAdapter
 import com.hodinv.weatherforecast.service.NetworkServiceControllerImpl
+import kotlinx.android.synthetic.main.fragment_forecast.*
 
 /**
  * Created by vasily on 26.03.18.
  */
 class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Router, ForecastContract.Presenter>(), ForecastContract.View {
+
+    private var refreshMenu: MenuItem? = null
+    lateinit private var adapter: ForecastListAdapter
+
     override fun setLoading(loading: Boolean) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (!loading) refresh.isRefreshing = false
+        refreshMenu?.isVisible = loading
     }
 
     override fun setViewTitle(title: String) {
@@ -26,7 +33,7 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
 
     override fun setForecastData(items: Array<ForecastItem>) {
         Log.d("ITEMS", "size = ${items.size}")
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        adapter.setForecastItems(items.toList())
     }
 
 
@@ -47,9 +54,24 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
         return activity as ForecastContract.Router
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        list.setHasFixedSize(true)
+        adapter = ForecastListAdapter(presenter!!)
+        list.adapter = adapter
+        list.layoutManager = LinearLayoutManager(context)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_forecast, container, false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_main, menu)
+        refreshMenu = menu?.findItem(R.id.menu_refreshing)
+        refreshMenu?.isVisible = false
     }
 
     companion object {

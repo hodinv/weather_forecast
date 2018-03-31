@@ -9,10 +9,10 @@ import android.arch.persistence.room.TypeConverters
  */
 @Entity
 @TypeConverters(ForecastConverter::class)
-class ForecastRecord {
-    @PrimaryKey(autoGenerate = false)
-    var id: Int = 0
+data class ForecastRecord(
+        @PrimaryKey(autoGenerate = false)
+        var id: Int = 0,
 
-    var forecast: Forecast = Forecast()
+        var forecast: Forecast = Forecast()
 
-}
+)
