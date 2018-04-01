@@ -25,19 +25,27 @@ class ForecastPresenter(val cityId: Int,
     private var forecastSubscription: Disposable? = null
     private var updates: Disposable? = null
 
+    override fun onDestroy() {
+        super.onDestroy()
+        serviceController.close()
+    }
+
     override fun onStart() {
         super.onStart()
         forecastSubscription = weatherUpdatesProvider.getForecastUpdate(cityId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { onForecastUpdate() }
         val forecast = forecastService.getForecast(cityId)
+        val weather = weatherService.getWeatherInfo(cityId)
         view?.setForecastData(forecast.forecast.list)
-        view?.setViewTitle(forecast.forecast.city.name)
+        view?.setViewTitle(weather.name)
         updates = serviceController.getStateSubscription()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+                    Log.d("ServiceUpdate", "checkRunning")
                     if (!serviceController.isForecastRequestRunning(cityId)) {
+                        Log.d("ServiceUpdate", "checkRunning - not running")
                         view?.setLoading(false)
                     }
                 }
@@ -52,6 +60,7 @@ class ForecastPresenter(val cityId: Int,
     }
 
     private fun onForecastUpdate() {
+        Log.d("onForecastUpdate", "yes")
         view?.setForecastData(forecastService.getForecast(cityId).forecast.list)
     }
 

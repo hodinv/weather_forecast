@@ -15,6 +15,9 @@ import java.util.concurrent.CopyOnWriteArrayList
  * Process usecases for sending proper request to service. Including force reqfresh logic
  */
 class NetworkServiceControllerImpl(val context: Context) : NetworkServiceController {
+    override fun close() {
+        waitForControllerReady().subscribe { context.unbindService(connection) }
+    }
 
     private val callbacks = CopyOnWriteArrayList<() -> Unit>()
 

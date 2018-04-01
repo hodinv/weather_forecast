@@ -50,6 +50,11 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
         return this
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter?.onDestroy()
+    }
+
     override fun getRouter(): ForecastContract.Router {
         return activity as ForecastContract.Router
     }
@@ -60,6 +65,9 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
         adapter = ForecastListAdapter(presenter!!)
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
+        refresh.setOnRefreshListener {
+            presenter?.refresh()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

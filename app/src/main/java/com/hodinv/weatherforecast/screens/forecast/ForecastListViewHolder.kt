@@ -9,6 +9,8 @@ import com.hodinv.weatherforecast.data.ForecastItem
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.screens.forecast.ForecastContract
 import com.hodinv.weatherforecast.utils.TempHelper
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by vasily on 24.03.18.
@@ -23,8 +25,13 @@ class ForecastListViewHolder(val view: View, presenter: ForecastContract.Present
 
     fun setItem(forecast: ForecastItem) {
         this.forecast = forecast
-        dateAndTime.text = "Now"
+        var dateText = FORMAT.format(Date(forecast.dt * 1000))
+
+        if (dateText.startsWith(TODAY_CHECK.format(Date()))) {
+            dateText = view.context.getString(R.string.today) + " " + TODAY.format(forecast.dt * 1000)
+        }
         // todo: extract to strings
+        dateAndTime.text = dateText
         temp.text = "%+.1f°C".format(TempHelper.kelvinToCelsuis(forecast.main.temp))
         if (Math.abs(forecast.main.temp_max - forecast.main.temp) > 0.09 ||
                 Math.abs(forecast.main.temp_min - forecast.main.temp) > 0.09) {
@@ -36,5 +43,11 @@ class ForecastListViewHolder(val view: View, presenter: ForecastContract.Present
             tempRange.text = "" // hide if min==max==main
         }
         weather.text = forecast.getWeatherInfo()
+    }
+
+    companion object {
+        val FORMAT = SimpleDateFormat("dd MMM HH:mm")
+        val TODAY = SimpleDateFormat("HH:mm")
+        val TODAY_CHECK = SimpleDateFormat("dd MMM")
     }
 }

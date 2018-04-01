@@ -11,5 +11,7 @@ interface MvpPresenter<V : MvpView, R : MvpRouter> {
     fun onStart()
 
     fun onStop()
+
+    fun onDestroy()
 }
 

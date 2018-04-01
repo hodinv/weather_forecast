@@ -14,4 +14,8 @@ abstract class BaseMvpPresenter<V : MvpView, R : MvpRouter> : MvpPresenter<V, R>
     override fun onStop() {
 
     }
+
+    override fun onDestroy() {
+
+    }
 }

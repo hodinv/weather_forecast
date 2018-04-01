@@ -8,6 +8,10 @@ import com.hodinv.weatherforecast.database.dao.WeatherDao
  * Created by vasily on 21.03.18.
  */
 class WeatherDbService(val weatherDao: WeatherDao, val placesService: PlacesDbService, val notifyAboutChanges: () -> Unit) : WeatherService {
+    override fun getWeatherInfo(cityId: Int): WeatherInfo {
+        return weatherDao.getById(cityId) ?: WeatherInfo()
+    }
+
     override fun putWeather(info: WeatherInfo) {
         Log.d("Weather", "put")
         val item = weatherDao.getById(info.id);

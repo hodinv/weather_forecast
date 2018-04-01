@@ -11,6 +11,7 @@ import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.mvp.MvpFragment
+import com.hodinv.weatherforecast.service.NetworkServiceController
 import com.hodinv.weatherforecast.service.NetworkServiceControllerImpl
 import kotlinx.android.synthetic.main.fragment_places_list.*
 
@@ -36,6 +37,11 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
         Log.d("setLoading", "=" + loading)
         if (!loading) refresh.isRefreshing = false
         refreshMenu?.isVisible = loading
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter?.onDestroy()
     }
 
     override fun createPresenter(): PlacesListContract.Presenter {

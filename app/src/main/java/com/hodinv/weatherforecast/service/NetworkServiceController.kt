@@ -8,4 +8,5 @@ import io.reactivex.Observable
  */
 interface NetworkServiceController : NetworkService {
     fun waitForControllerReady(): Observable<Unit>
+    fun close()
 }

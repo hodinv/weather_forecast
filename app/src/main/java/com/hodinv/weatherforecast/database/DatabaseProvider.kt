@@ -34,7 +34,7 @@ class DatabaseProvider : WeatherUpdatesProvider {
     }
 
     fun getForecastService(): ForecastService {
-        return ForecastDbService(db.forecastDao(), ::notifyWeatherListeners)
+        return ForecastDbService(db.forecastDao(), ::notifyForecastListeners)
     }
 
     private fun notifyWeatherListeners() {
@@ -46,7 +46,7 @@ class DatabaseProvider : WeatherUpdatesProvider {
 
     private fun notifyForecastListeners(cityId: Int) {
         forecastListeners.removeAll { it.get() == null }
-        Log.d("DB", "notify, listeners size after clean = " + weatherListeners.size)
+        Log.d("DB_F", "notify city $cityId, listeners size after clean = " + weatherListeners.size)
         forecastListeners.forEach { it.get()?.invoke(cityId) }
     }
 
@@ -59,7 +59,7 @@ class DatabaseProvider : WeatherUpdatesProvider {
     override fun getForecastUpdate(cityId: Int): Observable<Unit> {
         return Observable.create { consumer ->
             forecastListeners.add(WeakReference({ id ->
-                if (cityId == id) consumer.onNext(Unit)
+                if (cityId == id) consumer.onNext(Unit) else Log.d("FILTER", "skipped required $cityId  got $id ")
             }))
         }
     }
