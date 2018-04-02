@@ -8,7 +8,7 @@ import com.hodinv.weatherforecast.database.dao.WeatherDao
 /**
  * Created by vasily on 19.03.18.
  */
-class PlacesDbService(val placesDao: PlacesDao, val weatherDao: WeatherDao, val notifyAboutChanges: () -> Unit) : PlacesService {
+class PlacesDbService(private val placesDao: PlacesDao, private val weatherDao: WeatherDao, private val notifyAboutChanges: () -> Unit) : PlacesService {
     override fun hasCity(id: Int): Boolean {
         val items = placesDao.getAll()
         var result = false

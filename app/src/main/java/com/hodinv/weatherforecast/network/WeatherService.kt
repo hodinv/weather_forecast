@@ -8,7 +8,7 @@ import io.reactivex.Observable
 /**
  * Created by vasily on 18.03.18.
  */
-class WeatherService(val api: WeatherApi, val key: String) {
+class WeatherService(private val api: WeatherApi, private val key: String) {
     fun getWeather(city: String): Observable<WeatherInfoFromNet> {
         return api.getPlaceInfo(key, city)
     }

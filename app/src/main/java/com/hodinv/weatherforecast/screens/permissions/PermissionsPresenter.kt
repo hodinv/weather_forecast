@@ -8,7 +8,7 @@ import com.hodinv.weatherforecast.mvp.BaseMvpPresenter
  */
 class PermissionsPresenter : BaseMvpPresenter<PermissionsContract.View, PermissionsContract.Router>(), PermissionsContract.Presenter {
     override fun checkGrants(grantResults: IntArray) {
-        if (grantResults.filter { it != PackageManager.PERMISSION_GRANTED }.isNotEmpty()) {
+        if (grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
             // todo: say why
             router?.finish()
         } else {

@@ -7,9 +7,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.hodinv.weatherforecast.service.NetworkRequestsPerformer.LocalBinder
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.ReplaySubject
-import java.util.concurrent.CopyOnWriteArrayList
 
 
 /**
@@ -41,8 +39,8 @@ class NetworkServiceControllerImpl(val context: Context) : NetworkServiceControl
 
 
     init {
-        val intent = Intent(context, NetworkRequestsPerformer::class.java);
-        context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
+        val intent = Intent(context, NetworkRequestsPerformer::class.java)
+        context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
     private var bondedService: NetworkService? = null

@@ -12,32 +12,33 @@ import com.hodinv.weatherforecast.mvp.MvpFragment
 class PermissionsFragment : MvpFragment<PermissionsContract.View, PermissionsContract.Router, PermissionsContract.Presenter>(), PermissionsContract.View {
 
 
-    val PERMISSIONS = arrayOf<String>(Manifest.permission.INTERNET)
-    val PERMISSIONS_REQ = 123;
-
-
     override fun getNotGranter(): Array<String> {
         return PERMISSIONS.filter { PermissionChecker.checkSelfPermission(activity!!, it) != PackageManager.PERMISSION_GRANTED }.toTypedArray()
 
     }
 
     override fun createPresenter(): PermissionsContract.Presenter {
-        return PermissionsPresenter();
+        return PermissionsPresenter()
     }
 
     override fun getMvpView(): PermissionsContract.View {
-        return this;
+        return this
     }
 
     override fun getRouter(): PermissionsContract.Router {
-        return activity as PermissionsContract.Router;
+        return activity as PermissionsContract.Router
     }
 
     override fun requestPermissions(notGranter: Array<String>) {
-        ActivityCompat.requestPermissions(activity!!, notGranter, PERMISSIONS_REQ);
+        ActivityCompat.requestPermissions(activity!!, notGranter, PERMISSIONS_REQ)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         presenter?.checkGrants(grantResults)
+    }
+
+    companion object {
+        val PERMISSIONS = arrayOf<String>(Manifest.permission.INTERNET)
+        val PERMISSIONS_REQ = 123;
     }
 }

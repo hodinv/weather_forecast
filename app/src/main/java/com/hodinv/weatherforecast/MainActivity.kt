@@ -3,7 +3,6 @@ package com.hodinv.weatherforecast
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import com.hodinv.weatherforecast.screens.forecast.ForecastContract
 import com.hodinv.weatherforecast.screens.forecast.ForecastFragment
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-    fun startFragment(newFragment: Fragment) {
+    private fun startFragment(newFragment: Fragment) {
         // clear stack
 
         val count = supportFragmentManager.backStackEntryCount
@@ -55,14 +54,14 @@ class MainActivity : AppCompatActivity(),
             //supportFragmentManager.popBackStackImmediate();
         }
 
-        var transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, newFragment);//.addToBackStack(null)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, newFragment)//.addToBackStack(null)
 
         transaction.commit()
     }
 
-    fun startFragmentWithStacking(newFragment: Fragment) {
-        var transaction = supportFragmentManager.beginTransaction()
+    private fun startFragmentWithStacking(newFragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, newFragment).addToBackStack(null)
         transaction.commit()
     }

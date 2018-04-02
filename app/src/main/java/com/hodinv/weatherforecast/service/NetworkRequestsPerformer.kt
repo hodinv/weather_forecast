@@ -14,9 +14,7 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import java.lang.ref.WeakReference
 import java.util.concurrent.ConcurrentSkipListSet
-import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Makes background calls to weather service and puts all weather data database
@@ -31,8 +29,8 @@ class NetworkRequestsPerformer : Service(), NetworkService {
 
     override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
         if (addingRequestIsRunning)
-            return Observable.just(false);
-        addingRequestIsRunning = true;
+            return Observable.just(false)
+        addingRequestIsRunning = true
         notifyWeatherRequest()
         return networkProvider.getWeatherService().getWeather(placeName)
                 .subscribeOn(Schedulers.io())
@@ -62,16 +60,16 @@ class NetworkRequestsPerformer : Service(), NetworkService {
         return weatherRequestIsRunning || addingRequestIsRunning
     }
 
-    var weatherRequestIsRunning = false;
-    var addingRequestIsRunning = false;
-    var forecastsRunning = ConcurrentSkipListSet<Int>()
-    var emitWeather: PublishSubject<Unit> = PublishSubject.create()
+    private var weatherRequestIsRunning = false
+    private var addingRequestIsRunning = false
+    private var forecastsRunning = ConcurrentSkipListSet<Int>()
+    private var emitWeather: PublishSubject<Unit> = PublishSubject.create()
 
 
     override fun requestWeather(force: Boolean): Boolean {
         if (weatherRequestIsRunning)
-            return false;
-        weatherRequestIsRunning = true;
+            return false
+        weatherRequestIsRunning = true
         notifyWeatherRequest()
         databaseProvider.getPlacesService().getPlaces().toObservable()
                 .subscribeOn(Schedulers.io())
@@ -88,15 +86,15 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                         },
                         { error ->
                             error.printStackTrace()
-                            weatherRequestIsRunning = false;
+                            weatherRequestIsRunning = false
                             notifyWeatherRequest()
                         },
                         {
                             Log.d("ISMAIN", "=" + (Looper.myLooper() == Looper.getMainLooper()))
-                            weatherRequestIsRunning = false;
+                            weatherRequestIsRunning = false
                             notifyWeatherRequest()
-                        });
-        return true;
+                        })
+        return true
     }
 
     private fun notifyWeatherRequest() {
@@ -122,13 +120,13 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                     notifyWeatherRequest()
                     Log.d("NET", "notify no more for $cityId")
                 })
-        return true;
+        return true
     }
 
 
-    lateinit var networkProvider: NetworkProvider
-    val databaseProvider = DatabaseProvider.instance
-    val binder: IBinder = LocalBinder()
+    private lateinit var networkProvider: NetworkProvider
+    private val databaseProvider = DatabaseProvider.instance
+    private val binder: IBinder = LocalBinder()
 
     override fun onBind(intent: Intent): IBinder? {
         return binder
@@ -147,6 +145,6 @@ class NetworkRequestsPerformer : Service(), NetworkService {
 
 
     companion object {
-        val REFRESH_TIME = 1000 * 60 * 5;// 5 min
+        const val REFRESH_TIME = 1000 * 60 * 5// 5 min
     }
 }

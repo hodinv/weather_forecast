@@ -13,10 +13,10 @@ import io.reactivex.disposables.Disposable
  * Created by vasily on 26.03.18.
  */
 class ForecastPresenter(val cityId: Int,
-                        val serviceController: NetworkServiceController,
-                        val weatherUpdatesProvider: WeatherUpdatesProvider,
-                        val weatherService: WeatherService,
-                        val forecastService: ForecastService
+                        private val serviceController: NetworkServiceController,
+                        private val weatherUpdatesProvider: WeatherUpdatesProvider,
+                        private val weatherService: WeatherService,
+                        private val forecastService: ForecastService
 ) : BaseMvpPresenter<ForecastContract.View, ForecastContract.Router>(), ForecastContract.Presenter {
     override fun refresh() {
         Log.d("Refresh", "do")

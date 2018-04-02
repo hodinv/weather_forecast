@@ -5,7 +5,6 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import android.arch.persistence.room.Update
 import com.hodinv.weatherforecast.data.ForecastRecord
-import com.hodinv.weatherforecast.data.WeatherInfo
 
 /**
  * Created by vasily on 26.03.18.

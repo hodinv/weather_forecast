@@ -12,9 +12,9 @@ import com.hodinv.weatherforecast.utils.TempHelper
  * Created by vasily on 24.03.18.
  */
 class PlacesListViewHolder(val view: View, presenter: PlacesListContract.Presenter) : RecyclerView.ViewHolder(view) {
-    private val city: TextView = view.findViewById(R.id.txt_city);
-    private val temp: TextView = view.findViewById(R.id.txt_temp);
-    private val tempRange: TextView = view.findViewById(R.id.txt_temp_range);
+    private val city: TextView = view.findViewById(R.id.txt_city)
+    private val temp: TextView = view.findViewById(R.id.txt_temp)
+    private val tempRange: TextView = view.findViewById(R.id.txt_temp_range)
     private val weather: TextView = view.findViewById(R.id.txt_weather)
     private var place: WeatherInfo? = null
 
@@ -32,11 +32,11 @@ class PlacesListViewHolder(val view: View, presenter: PlacesListContract.Present
         city.text = place.name
         // todo: extract to strings
         temp.text = "%+.1f°C".format(TempHelper.kelvinToCelsuis(place.main.temp))
-        if (Math.abs(place.main.temp_max - place.main.temp) > 0.09 ||
-                Math.abs(place.main.temp_min - place.main.temp) > 0.09) {
+        if (Math.abs(place.main.tempMax - place.main.temp) > 0.09 ||
+                Math.abs(place.main.tempMin - place.main.temp) > 0.09) {
             tempRange.text = "%+.1f°C...%+.1f°C".format(
-                    TempHelper.kelvinToCelsuis(place.main.temp_min),
-                    TempHelper.kelvinToCelsuis(place.main.temp_max)
+                    TempHelper.kelvinToCelsuis(place.main.tempMin),
+                    TempHelper.kelvinToCelsuis(place.main.tempMax)
             )
         } else {
             tempRange.text = "" // hide if min==max==main

@@ -13,10 +13,10 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vasily on 18.03.18.
  */
-class PlacesListPresenter(val serviceController: NetworkServiceController,
-                          val weatherUpdatesProvider: WeatherUpdatesProvider,
-                          val weatherService: WeatherService,
-                          val placesService: PlacesService) : BaseMvpPresenter<PlacesListContract.View, PlacesListContract.Router>(), PlacesListContract.Presenter {
+class PlacesListPresenter(private val serviceController: NetworkServiceController,
+                          private val weatherUpdatesProvider: WeatherUpdatesProvider,
+                          private val weatherService: WeatherService,
+                          private val placesService: PlacesService) : BaseMvpPresenter<PlacesListContract.View, PlacesListContract.Router>(), PlacesListContract.Presenter {
     override fun placeLongPressed(place: WeatherInfo) {
         placesService.deleteCity(place.id)
     }
@@ -44,7 +44,7 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
         serviceController.requestWeather(true)
     }
 
-    fun onWeatherUpdate() {
+    private fun onWeatherUpdate() {
         Log.d("DbUpdate", "updateed")
         view?.setPlacesList(weatherService.getWeatherInfo())
     }

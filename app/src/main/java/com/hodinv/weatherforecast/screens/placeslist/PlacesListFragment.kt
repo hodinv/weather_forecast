@@ -11,7 +11,6 @@ import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.mvp.MvpFragment
-import com.hodinv.weatherforecast.service.NetworkServiceController
 import com.hodinv.weatherforecast.service.NetworkServiceControllerImpl
 import kotlinx.android.synthetic.main.fragment_places_list.*
 
@@ -22,19 +21,19 @@ import kotlinx.android.synthetic.main.fragment_places_list.*
 class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContract.Router, PlacesListContract.Presenter>(), PlacesListContract.View {
     override fun notAdded() {
         if (activity != null) {
-            Toast.makeText(activity!!, "Not Added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity!!, "Not Added", Toast.LENGTH_SHORT).show()
         }
     }
 
     private var refreshMenu: MenuItem? = null
-    lateinit private var adapter: PlacesListAdapter
+    private lateinit var adapter: PlacesListAdapter
 
     override fun setPlacesList(places: List<WeatherInfo>) {
         adapter.setPlaces(places)
     }
 
     override fun setLoading(loading: Boolean) {
-        Log.d("setLoading", "=" + loading)
+        Log.d("setLoading", "=$loading")
         if (!loading) refresh.isRefreshing = false
         refreshMenu?.isVisible = loading
     }

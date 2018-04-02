@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.hodinv.weatherforecast.MainActivity">
     <item android:id="@+id/menu_refreshing"
-        android:title="Loading"
+        android:title="@string/loading"
         app:showAsAction="always"
         app:actionViewClass="android.widget.ProgressBar"
         />

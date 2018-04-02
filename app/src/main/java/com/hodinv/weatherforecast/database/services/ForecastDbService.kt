@@ -7,7 +7,7 @@ import com.hodinv.weatherforecast.database.dao.ForecastDao
 /**
  * Created by vasily on 26.03.18.
  */
-class ForecastDbService(val forecastDao: ForecastDao, val notifyAboutChanges: (cityId: Int) -> Unit) : ForecastService {
+class ForecastDbService(private val forecastDao: ForecastDao, private val notifyAboutChanges: (cityId: Int) -> Unit) : ForecastService {
     override fun putForecast(record: ForecastRecord) {
         if (forecastDao.getById(record.id) != null) {
             Log.d("forecast", "-update")

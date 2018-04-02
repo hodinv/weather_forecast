@@ -5,28 +5,18 @@ import android.content.Context
 import android.util.Log
 import com.hodinv.weatherforecast.database.services.*
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
 import io.reactivex.subjects.PublishSubject
-import org.reactivestreams.Publisher
-import java.lang.ref.WeakReference
-import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Created by vasily on 18.03.18.
  */
-class DatabaseProvider : WeatherUpdatesProvider {
+class DatabaseProvider// todo: remove
+private constructor(context: Context) : WeatherUpdatesProvider {
 
 
     private var db: AppDatabase
-    var emitWeather: PublishSubject<Unit> = PublishSubject.create()
-    var emitForecast: PublishSubject<Int> = PublishSubject.create()
-
-    private constructor (context: Context) {
-        db = Room.databaseBuilder(context, AppDatabase::class.java, "database")
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries() // todo: remove
-                .build()
-    }
+    private var emitWeather: PublishSubject<Unit> = PublishSubject.create()
+    private var emitForecast: PublishSubject<Int> = PublishSubject.create()
 
     fun getPlacesService(): PlacesDbService {
         return PlacesDbService(db.placesDao(), db.weatherDao(), ::notifyWeatherListeners)
@@ -70,5 +60,12 @@ class DatabaseProvider : WeatherUpdatesProvider {
         }
 
 
+    }
+
+    init {
+        db = Room.databaseBuilder(context, AppDatabase::class.java, "database")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries() // todo: remove
+                .build()
     }
 }

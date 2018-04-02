@@ -19,8 +19,8 @@ class SettingsHelper(val context: Context) {
     }
 
     companion object {
-        val PREFS = "prefs"
-        val CITY_ID = "city_id"
-        val NO_CITY = -1
+        const val PREFS = "prefs"
+        const val CITY_ID = "city_id"
+        const val NO_CITY = -1
     }
 }

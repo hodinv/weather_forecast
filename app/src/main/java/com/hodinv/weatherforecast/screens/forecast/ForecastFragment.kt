@@ -8,8 +8,6 @@ import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.ForecastItem
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.mvp.MvpFragment
-import com.hodinv.weatherforecast.screens.placeslist.ForecastListAdapter
-import com.hodinv.weatherforecast.screens.placeslist.PlacesListAdapter
 import com.hodinv.weatherforecast.service.NetworkServiceControllerImpl
 import kotlinx.android.synthetic.main.fragment_forecast.*
 
@@ -19,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_forecast.*
 class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Router, ForecastContract.Presenter>(), ForecastContract.View {
 
     private var refreshMenu: MenuItem? = null
-    lateinit private var adapter: ForecastListAdapter
+    private lateinit var adapter: ForecastListAdapter
 
     override fun setLoading(loading: Boolean) {
         if (!loading) refresh.isRefreshing = false
@@ -83,7 +81,7 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
     }
 
     companion object {
-        val KEY_CITY_ID = "city_id"
+        const val KEY_CITY_ID = "city_id"
 
         fun getInstance(cityId: Int): ForecastFragment {
             val fragment = ForecastFragment()
