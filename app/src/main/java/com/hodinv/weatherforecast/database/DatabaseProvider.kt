@@ -10,11 +10,14 @@ import io.reactivex.subjects.PublishSubject
 /**
  * Created by vasily on 18.03.18.
  */
-class DatabaseProvider// todo: remove
+class DatabaseProvider
 private constructor(context: Context) : WeatherUpdatesProvider {
 
 
-    private var db: AppDatabase
+    private var db: AppDatabase = Room.databaseBuilder(context, AppDatabase::class.java, "database")
+            .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build()
     private var emitWeather: PublishSubject<Unit> = PublishSubject.create()
     private var emitForecast: PublishSubject<Int> = PublishSubject.create()
 
@@ -52,7 +55,6 @@ private constructor(context: Context) : WeatherUpdatesProvider {
 
     companion object {
         lateinit var instance: DatabaseProvider
-            get
             private set
 
         fun initialize(context: Context) {
@@ -62,10 +64,4 @@ private constructor(context: Context) : WeatherUpdatesProvider {
 
     }
 
-    init {
-        db = Room.databaseBuilder(context, AppDatabase::class.java, "database")
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries() // todo: remove
-                .build()
-    }
 }

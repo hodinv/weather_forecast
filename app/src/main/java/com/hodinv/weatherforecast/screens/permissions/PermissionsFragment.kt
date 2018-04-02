@@ -38,7 +38,7 @@ class PermissionsFragment : MvpFragment<PermissionsContract.View, PermissionsCon
     }
 
     companion object {
-        val PERMISSIONS = arrayOf<String>(Manifest.permission.INTERNET)
-        val PERMISSIONS_REQ = 123;
+        val PERMISSIONS = arrayOf(Manifest.permission.INTERNET)
+        const val PERMISSIONS_REQ = 123
     }
 }
