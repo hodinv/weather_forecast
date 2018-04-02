@@ -19,6 +19,7 @@ class ForecastPresenter(val cityId: Int,
                         val forecastService: ForecastService
 ) : BaseMvpPresenter<ForecastContract.View, ForecastContract.Router>(), ForecastContract.Presenter {
     override fun refresh() {
+        Log.d("Refresh", "do")
         serviceController.requestForecast(cityId, true)
     }
 
@@ -32,13 +33,19 @@ class ForecastPresenter(val cityId: Int,
 
     override fun onStart() {
         super.onStart()
-        forecastSubscription = weatherUpdatesProvider.getForecastUpdate(cityId)
+        forecastSubscription = weatherUpdatesProvider.getForecastUpdate()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { onForecastUpdate() }
+                .subscribe {
+                    Log.d("subscrition", "for id $it")
+                    if (it == cityId) {
+                        onForecastUpdate()
+                    }
+                }
         val forecast = forecastService.getForecast(cityId)
         val weather = weatherService.getWeatherInfo(cityId)
         view?.setForecastData(forecast.forecast.list)
         view?.setViewTitle(weather.name)
+        Log.d("Forecast", "registered for $cityId")
         updates = serviceController.getStateSubscription()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,6 +54,8 @@ class ForecastPresenter(val cityId: Int,
                     if (!serviceController.isForecastRequestRunning(cityId)) {
                         Log.d("ServiceUpdate", "checkRunning - not running")
                         view?.setLoading(false)
+                    } else {
+                        Log.d("ServiceUpdate", "still running")
                     }
                 }
         serviceController.waitForControllerReady()
@@ -66,6 +75,7 @@ class ForecastPresenter(val cityId: Int,
 
     override fun onStop() {
         super.onStop()
+        Log.d("Forecast", "disposed for $cityId")
         updates?.dispose()
         updates = null
         forecastSubscription?.dispose()

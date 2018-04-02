@@ -13,6 +13,7 @@ import com.hodinv.weatherforecast.network.NetworkProvider
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.lang.ref.WeakReference
 import java.util.concurrent.ConcurrentSkipListSet
 import java.util.concurrent.CopyOnWriteArrayList
@@ -54,9 +55,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     }
 
     override fun getStateSubscription(): Observable<Unit> {
-        return Observable.create { consumer ->
-            weatherRequestCallbacks.add(WeakReference({ consumer.onNext(Unit) }))
-        }
+        return emitWeather
     }
 
     override fun isWeatherRequestRunning(): Boolean {
@@ -66,7 +65,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     var weatherRequestIsRunning = false;
     var addingRequestIsRunning = false;
     var forecastsRunning = ConcurrentSkipListSet<Int>()
-    val weatherRequestCallbacks = CopyOnWriteArrayList<WeakReference<() -> Unit>>()
+    var emitWeather: PublishSubject<Unit> = PublishSubject.create()
 
 
     override fun requestWeather(force: Boolean): Boolean {
@@ -101,10 +100,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     }
 
     private fun notifyWeatherRequest() {
-        weatherRequestCallbacks.removeAll { it.get() == null }
-        weatherRequestCallbacks.forEach {
-            it.get()?.invoke()
-        }
+        emitWeather.onNext(Unit)
     }
 
     override fun requestForecast(cityId: Int, force: Boolean): Boolean {
@@ -118,11 +114,13 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                 .doOnError {
                     forecastsRunning.remove(cityId)
                     notifyWeatherRequest()
+                    Log.d("NET", "notify no more for $cityId")
                 }
                 .subscribe({ result ->
                     databaseProvider.getForecastService().putForecast(ForecastRecord(result.city.id, result))
                     forecastsRunning.remove(cityId)
                     notifyWeatherRequest()
+                    Log.d("NET", "notify no more for $cityId")
                 })
         return true;
     }

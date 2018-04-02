@@ -40,6 +40,7 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
     }
 
     override fun refreshData() {
+        System.gc()
         serviceController.requestWeather(true)
     }
 
@@ -58,6 +59,7 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { onWeatherUpdate() }
         view?.setPlacesList(weatherService.getWeatherInfo())
+        Log.d("Places", "scheduled")
         updates = serviceController.getStateSubscription()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -75,6 +77,7 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
                         view?.setLoading(true)
                     }
                 })
+        System.gc()
     }
 
     override fun onDestroy() {
@@ -84,6 +87,7 @@ class PlacesListPresenter(val serviceController: NetworkServiceController,
 
     override fun onStop() {
         super.onStop()
+        Log.d("Places", "disposed")
         updates?.dispose()
         updates = null
         weatherSubscription?.dispose()

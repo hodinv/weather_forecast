@@ -8,5 +8,5 @@ import io.reactivex.Observable
  */
 interface WeatherUpdatesProvider {
     fun getWeatherUpdates(): Observable<Unit>
-    fun getForecastUpdate(cityId: Int): Observable<Unit>
+    fun getForecastUpdate(): Observable<Int>
 }

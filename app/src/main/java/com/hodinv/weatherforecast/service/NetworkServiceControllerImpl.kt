@@ -7,6 +7,8 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.hodinv.weatherforecast.service.NetworkRequestsPerformer.LocalBinder
 import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.ReplaySubject
 import java.util.concurrent.CopyOnWriteArrayList
 
 
@@ -19,7 +21,7 @@ class NetworkServiceControllerImpl(val context: Context) : NetworkServiceControl
         waitForControllerReady().subscribe { context.unbindService(connection) }
     }
 
-    private val callbacks = CopyOnWriteArrayList<() -> Unit>()
+    var emitReady: ReplaySubject<Unit> = ReplaySubject.create()
 
     private val connection = object : ServiceConnection {
 
@@ -28,7 +30,8 @@ class NetworkServiceControllerImpl(val context: Context) : NetworkServiceControl
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             val binder = service as LocalBinder
             bondedService = binder.getService()
-            callbacks.forEach { it() }
+            emitReady.onNext(Unit)
+            emitReady.onComplete()
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
@@ -47,18 +50,7 @@ class NetworkServiceControllerImpl(val context: Context) : NetworkServiceControl
 
 
     override fun waitForControllerReady(): Observable<Unit> {
-        if (bondedService != null)
-            return Observable.just(Unit)
-        return Observable.create { consumer ->
-            // thread may changed
-            if (bondedService != null) {
-                consumer.onNext(Unit)
-            } else {
-                callbacks.add {
-                    consumer.onNext(Unit)
-                }
-            }
-        }
+        return emitReady
     }
 
     override fun getStateSubscription(): Observable<Unit> {
