@@ -12,7 +12,7 @@ import java.util.*
 /**
  * Created by vasily on 24.03.18.
  */
-class ForecastListViewHolder(val view: View, presenter: ForecastContract.Presenter) : RecyclerView.ViewHolder(view) {
+class ForecastListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     private val dateAndTime: TextView = view.findViewById(R.id.txt_date_time)
     private val temp: TextView = view.findViewById(R.id.txt_temp)
     private val tempRange: TextView = view.findViewById(R.id.txt_temp_range)

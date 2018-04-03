@@ -60,7 +60,7 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list.setHasFixedSize(true)
-        adapter = ForecastListAdapter(presenter!!)
+        adapter = ForecastListAdapter()
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
         refresh.setOnRefreshListener {

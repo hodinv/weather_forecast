@@ -9,11 +9,11 @@ import com.hodinv.weatherforecast.data.ForecastItem
 /**
  * Created by vasily on 24.03.18.
  */
-class ForecastListAdapter(val presenter: ForecastContract.Presenter) : RecyclerView.Adapter<ForecastListViewHolder>() {
+class ForecastListAdapter() : RecyclerView.Adapter<ForecastListViewHolder>() {
     private var items: List<ForecastItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ForecastListViewHolder {
-        return ForecastListViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.listitem_forecast, parent, false), presenter)
+        return ForecastListViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.listitem_forecast, parent, false))
     }
 
     override fun getItemCount(): Int {
