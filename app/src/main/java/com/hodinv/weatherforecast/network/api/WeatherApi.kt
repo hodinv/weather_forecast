@@ -11,12 +11,12 @@ import retrofit2.http.Query
  */
 interface WeatherApi {
     @GET("data/2.5/weather")
-    fun getPlaceInfo(@Query("appid") appid: String, @Query("q") city: String): Observable<WeatherInfoFromNet>
+    fun getPlaceInfo(@Query("appid") appid: String, @Query("lang") lang: String, @Query("q") city: String): Observable<WeatherInfoFromNet>
 
     @GET("data/2.5/weather")
-    fun getPlaceInfo(@Query("appid") appid: String, @Query("id") cityId: Int): Observable<WeatherInfoFromNet>
+    fun getPlaceInfo(@Query("appid") appid: String, @Query("lang") lang: String, @Query("id") cityId: Int): Observable<WeatherInfoFromNet>
 
     @GET("data/2.5/forecast")
-    fun getForecast(@Query("appid") appid: String, @Query("id") cityId: Int): Observable<Forecast>
+    fun getForecast(@Query("appid") appid: String, @Query("lang") lang: String, @Query("id") cityId: Int): Observable<Forecast>
 
 }

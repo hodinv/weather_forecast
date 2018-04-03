@@ -140,7 +140,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
 
     override fun onCreate() {
         super.onCreate()
-        networkProvider = NetworkProvider(getString(R.string.weather_api))
+        networkProvider = NetworkProvider(getString(R.string.weather_api), getString(R.string.code))
     }
 
 

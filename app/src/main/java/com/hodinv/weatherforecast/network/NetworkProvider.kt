@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Created by vasily on 18.03.18.
  */
-class NetworkProvider(private val apiKey: String) {
+class NetworkProvider(private val apiKey: String, private val lang: String) {
     private val retrofit: Retrofit = Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
@@ -17,7 +17,7 @@ class NetworkProvider(private val apiKey: String) {
             .build()
 
     fun getWeatherService(): WeatherService {
-        return WeatherService(retrofit.create(WeatherApi::class.java), apiKey)
+        return WeatherService(retrofit.create(WeatherApi::class.java), apiKey, lang)
     }
 
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Прогноз погоды</string>
+    <string name="code">ru</string>
+    <string name="new_city_title">Введите название города</string>
+    <string name="today">Сегодня</string>
+    <string name="loading">Загрузка</string>
+</resources>
