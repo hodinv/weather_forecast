@@ -1,6 +1,5 @@
 package com.hodinv.weatherforecast.database.services
 
-import android.util.Log
 import com.hodinv.weatherforecast.data.ForecastRecord
 import com.hodinv.weatherforecast.database.dao.ForecastDao
 
@@ -10,11 +9,9 @@ import com.hodinv.weatherforecast.database.dao.ForecastDao
 class ForecastDbService(private val forecastDao: ForecastDao, private val notifyAboutChanges: (cityId: Int) -> Unit) : ForecastService {
     override fun putForecast(record: ForecastRecord) {
         if (forecastDao.getById(record.id) != null) {
-            Log.d("forecast", "-update")
             forecastDao.update(record)
         } else {
             forecastDao.insertNew(record)
-            Log.d("forecast", "-insert")
         }
         notifyAboutChanges(record.id)
     }

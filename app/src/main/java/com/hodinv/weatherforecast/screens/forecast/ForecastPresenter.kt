@@ -1,6 +1,5 @@
 package com.hodinv.weatherforecast.screens.forecast
 
-import android.util.Log
 import com.hodinv.weatherforecast.database.services.ForecastService
 import com.hodinv.weatherforecast.database.services.WeatherService
 import com.hodinv.weatherforecast.database.services.WeatherUpdatesProvider
@@ -19,7 +18,6 @@ class ForecastPresenter(val cityId: Int,
                         private val forecastService: ForecastService
 ) : BaseMvpPresenter<ForecastContract.View, ForecastContract.Router>(), ForecastContract.Presenter {
     override fun refresh() {
-        Log.d("Refresh", "do")
         serviceController.requestForecast(cityId, true)
     }
 
@@ -36,7 +34,6 @@ class ForecastPresenter(val cityId: Int,
         forecastSubscription = weatherUpdatesProvider.getForecastUpdate()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    Log.d("subscrition", "for id $it")
                     if (it == cityId) {
                         onForecastUpdate()
                     }
@@ -45,23 +42,17 @@ class ForecastPresenter(val cityId: Int,
         val weather = weatherService.getWeatherInfo(cityId)
         view?.setForecastData(forecast.forecast.list)
         view?.setViewTitle(weather.name)
-        Log.d("Forecast", "registered for $cityId")
         updates = serviceController.getStateSubscription()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    Log.d("ServiceUpdate", "checkRunning")
                     if (!serviceController.isForecastRequestRunning(cityId)) {
-                        Log.d("ServiceUpdate", "checkRunning - not running")
                         view?.setLoading(false)
-                    } else {
-                        Log.d("ServiceUpdate", "still running")
                     }
                 }
         serviceController.waitForControllerReady()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d("ServiceReady", "yes")
                     if (serviceController.requestForecast(cityId, true)) {
                         view?.setLoading(true)
                     }
@@ -69,13 +60,11 @@ class ForecastPresenter(val cityId: Int,
     }
 
     private fun onForecastUpdate() {
-        Log.d("onForecastUpdate", "yes")
         view?.setForecastData(forecastService.getForecast(cityId).forecast.list)
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("Forecast", "disposed for $cityId")
         updates?.dispose()
         updates = null
         forecastSubscription?.dispose()

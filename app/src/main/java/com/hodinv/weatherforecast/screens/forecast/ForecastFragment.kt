@@ -2,7 +2,6 @@ package com.hodinv.weatherforecast.screens.forecast
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.*
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.ForecastItem
@@ -30,7 +29,6 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
 
 
     override fun setForecastData(items: Array<ForecastItem>) {
-        Log.d("ITEMS", "size = ${items.size}")
         adapter.setForecastItems(items.toList())
     }
 

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.os.Looper
-import android.util.Log
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.ForecastRecord
 import com.hodinv.weatherforecast.database.DatabaseProvider
@@ -87,11 +86,9 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                         { error ->
                             error.printStackTrace()
                             weatherRequestIsRunning = false
-                            Log.d("NET", "error, notify weather done")
                             notifyWeatherRequest()
                         },
                         {
-                            Log.d("ISMAIN", "=" + (Looper.myLooper() == Looper.getMainLooper()))
                             weatherRequestIsRunning = false
                             notifyWeatherRequest()
                         })
@@ -113,17 +110,14 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                 .doOnError {
                     forecastsRunning.remove(cityId)
                     notifyWeatherRequest()
-                    Log.d("NET", "error, notify no more for $cityId")
                 }
                 .subscribe({ result ->
                     databaseProvider.getForecastService().putForecast(ForecastRecord(result.city.id, result))
                     forecastsRunning.remove(cityId)
                     notifyWeatherRequest()
-                    Log.d("NET", "notify no more for $cityId")
                 },  {error ->
                     forecastsRunning.remove(cityId)
                     notifyWeatherRequest()
-                    Log.d("NET", "error2, notify no more for $cityId")
                 })
         return true
     }

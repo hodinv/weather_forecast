@@ -2,7 +2,6 @@ package com.hodinv.weatherforecast.database
 
 import android.arch.persistence.room.Room
 import android.content.Context
-import android.util.Log
 import com.hodinv.weatherforecast.database.services.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -35,12 +34,10 @@ private constructor(context: Context) : WeatherUpdatesProvider {
 
     private fun notifyWeatherListeners() {
         emitWeather.onNext(Unit)
-        Log.d("DB", "notify weather")
     }
 
     private fun notifyForecastListeners(cityId: Int) {
         emitForecast.onNext(cityId)
-        Log.d("DB", "notify forecast for $cityId")
     }
 
     override fun getWeatherUpdates(): Observable<Unit> {

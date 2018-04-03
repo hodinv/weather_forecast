@@ -1,6 +1,5 @@
 package com.hodinv.weatherforecast.screens.placeslist
 
-import android.util.Log
 import com.hodinv.weatherforecast.data.WeatherInfo
 import com.hodinv.weatherforecast.database.services.PlacesService
 import com.hodinv.weatherforecast.database.services.WeatherService
@@ -28,7 +27,6 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
                     .subscribe({
                         if (!it) view?.notAdded()
                     }, {
-                        Log.e("Err", it.message)
                         it.printStackTrace()
                         view?.notAdded()
                     })
@@ -45,7 +43,6 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
     }
 
     private fun onWeatherUpdate() {
-        Log.d("DbUpdate", "updateed")
         view?.setPlacesList(weatherService.getWeatherInfo())
     }
 
@@ -59,12 +56,10 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { onWeatherUpdate() }
         view?.setPlacesList(weatherService.getWeatherInfo())
-        Log.d("Places", "scheduled")
         updates = serviceController.getStateSubscription()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    Log.d("ServiceUpdate", "=" + serviceController.isWeatherRequestRunning())
                     if (!serviceController.isWeatherRequestRunning()) {
                         view?.setLoading(false)
                     }
@@ -72,7 +67,6 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
         serviceController.waitForControllerReady()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d("ServiceReady", "yes")
                     if (serviceController.requestWeather(false)) {
                         view?.setLoading(true)
                     }
@@ -87,7 +81,6 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
 
     override fun onStop() {
         super.onStop()
-        Log.d("Places", "disposed")
         updates?.dispose()
         updates = null
         weatherSubscription?.dispose()

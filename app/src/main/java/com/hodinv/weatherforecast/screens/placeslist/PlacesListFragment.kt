@@ -3,7 +3,6 @@ package com.hodinv.weatherforecast.screens.placeslist
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
@@ -33,7 +32,6 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
     }
 
     override fun setLoading(loading: Boolean) {
-        Log.d("setLoading", "=$loading")
         if (!loading) refresh.isRefreshing = false
         refreshMenu?.isVisible = loading
     }
