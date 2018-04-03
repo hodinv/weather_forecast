@@ -38,7 +38,6 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
     }
 
     override fun refreshData() {
-        System.gc()
         serviceController.requestWeather(true)
     }
 
@@ -71,7 +70,6 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
                         view?.setLoading(true)
                     }
                 })
-        System.gc()
     }
 
     override fun onDestroy() {
