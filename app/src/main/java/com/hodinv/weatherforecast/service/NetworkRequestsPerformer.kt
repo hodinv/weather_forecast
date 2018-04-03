@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import android.os.Looper
 import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.ForecastRecord
 import com.hodinv.weatherforecast.database.DatabaseProvider
