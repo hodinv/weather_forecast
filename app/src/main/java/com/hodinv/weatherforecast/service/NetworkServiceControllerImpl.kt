@@ -12,7 +12,7 @@ import io.reactivex.subjects.ReplaySubject
 
 /**
  * Created by vasily on 18.03.18.
- * Process usecases for sending proper request to service. Including force reqfresh logic
+ * Process use cases for sending proper request to service. Including force refresh logic
  */
 class NetworkServiceControllerImpl(val context: Context) : NetworkServiceController {
     override fun close() {

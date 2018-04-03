@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Weather Forecast</string>
-    <string name="weather_api">8ae1bdb8d64866ebbb50f82ea8ba3a63</string>
+    <string name="weather_api" tools:ignore="MissingTranslation">8ae1bdb8d64866ebbb50f82ea8ba3a63</string>
     <string name="new_city_title">Enter city/town name</string>
     <string name="today">Today</string>
     <string name="loading">Loading</string>
     <string name="code">en</string>
-    <string name="format_temp">%+.1f°C</string>
-    <string name="format_temp_range">%+.1f°C…%+.1f°C</string>
+    <string name="format_temp" tools:ignore="MissingTranslation">%+.1f°C</string>
+    <string name="format_temp_range" tools:ignore="MissingTranslation">%+.1f°C…%+.1f°C</string>
 </resources>

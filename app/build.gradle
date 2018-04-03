@@ -42,7 +42,7 @@ dependencies {
 
     // rxandroid
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
-    implementation 'io.reactivex.rxjava2:rxkotlin:2+'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
 
     // orm
     implementation "android.arch.persistence.room:runtime:1.0.0"
