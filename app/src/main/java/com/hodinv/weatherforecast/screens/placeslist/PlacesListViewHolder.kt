@@ -30,11 +30,10 @@ class PlacesListViewHolder(val view: View, presenter: PlacesListContract.Present
     fun setItem(place: WeatherInfo) {
         this.place = place
         city.text = place.name
-        // todo: extract to strings
-        temp.text = "%+.1f°C".format(TempHelper.kelvinToCelsuis(place.main.temp))
+        temp.text = view.context.getString(R.string.format_temp).format(TempHelper.kelvinToCelsuis(place.main.temp))
         if (Math.abs(place.main.tempMax - place.main.temp) > 0.09 ||
                 Math.abs(place.main.tempMin - place.main.temp) > 0.09) {
-            tempRange.text = "%+.1f°C...%+.1f°C".format(
+            tempRange.text = view.context.getString(R.string.format_temp_range).format(
                     TempHelper.kelvinToCelsuis(place.main.tempMin),
                     TempHelper.kelvinToCelsuis(place.main.tempMax)
             )

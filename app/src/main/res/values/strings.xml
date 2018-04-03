@@ -4,4 +4,6 @@
     <string name="new_city_title">Enter city/town name</string>
     <string name="today">Today</string>
     <string name="loading">Loading</string>
+    <string name="format_temp">%+.1f°C</string>
+    <string name="format_temp_range">%+.1f°C…%+.1f°C</string>
 </resources>

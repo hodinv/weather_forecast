@@ -27,12 +27,11 @@ class ForecastListViewHolder(val view: View, presenter: ForecastContract.Present
         if (dateText.startsWith(TODAY_CHECK.format(Date()))) {
             dateText = view.context.getString(R.string.today) + " " + TODAY.format(forecast.dt * 1000)
         }
-        // todo: extract to strings
         dateAndTime.text = dateText
-        temp.text = "%+.1f°C".format(TempHelper.kelvinToCelsuis(forecast.main.temp))
+        temp.text = view.context.getString(R.string.format_temp).format(TempHelper.kelvinToCelsuis(forecast.main.temp))
         if (Math.abs(forecast.main.tempMax - forecast.main.temp) > 0.09 ||
                 Math.abs(forecast.main.tempMin - forecast.main.temp) > 0.09) {
-            tempRange.text = "%+.1f°C...%+.1f°C".format(
+            tempRange.text = view.context.getString(R.string.format_temp_range).format(
                     TempHelper.kelvinToCelsuis(forecast.main.tempMin),
                     TempHelper.kelvinToCelsuis(forecast.main.tempMax)
             )
