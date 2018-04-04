@@ -15,9 +15,13 @@ import kotlinx.android.synthetic.main.fragment_places_list.*
 
 
 /**
- * A placeholder fragment containing a simple view.
+ * Created by vasily
+ * Fragment for places list screen
  */
 class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContract.Router, PlacesListContract.Presenter>(), PlacesListContract.View {
+    /**
+     * Notify user that city was not added to list
+     */
     override fun notAdded() {
         if (activity != null) {
             Toast.makeText(activity!!, "Not Added", Toast.LENGTH_SHORT).show()
@@ -27,10 +31,18 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
     private var refreshMenu: MenuItem? = null
     private lateinit var adapter: PlacesListAdapter
 
+    /**
+     * Sets list of places that should be shown in list
+     * @param places list of places
+     */
     override fun setPlacesList(places: List<WeatherInfo>) {
         adapter.setPlaces(places)
     }
 
+    /**
+     * Set loading state
+     * @param loading true of loading is in progress
+     */
     override fun setLoading(loading: Boolean) {
         if (!loading) refresh.isRefreshing = false
         refreshMenu?.isVisible = loading

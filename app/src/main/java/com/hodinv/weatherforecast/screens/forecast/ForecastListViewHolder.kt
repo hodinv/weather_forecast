@@ -11,6 +11,7 @@ import java.util.*
 
 /**
  * Created by vasily on 24.03.18.
+ * View holder for one of forecast items
  */
 class ForecastListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     private val dateAndTime: TextView = view.findViewById(R.id.txt_date_time)

@@ -12,22 +12,34 @@ import kotlinx.android.synthetic.main.fragment_forecast.*
 
 /**
  * Created by vasily on 26.03.18.
+ * Fragment for forecast screen
  */
 class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Router, ForecastContract.Presenter>(), ForecastContract.View {
 
     private var refreshMenu: MenuItem? = null
     private lateinit var adapter: ForecastListAdapter
 
+    /**
+     * Set loading state
+     * @param loading true of loading is in progress
+     */
     override fun setLoading(loading: Boolean) {
         if (!loading) refresh.isRefreshing = false
         refreshMenu?.isVisible = loading
     }
 
+    /**
+     * Changes title of screen
+     * @param title to set
+     */
     override fun setViewTitle(title: String) {
         activity?.title = title
     }
 
-
+    /**
+     * Set forecast items to show in list
+     * @param items array of forecast items
+     */
     override fun setForecastData(items: Array<ForecastItem>) {
         adapter.setForecastItems(items.toList())
     }
@@ -81,6 +93,10 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
     companion object {
         const val KEY_CITY_ID = "city_id"
 
+        /**
+         * Creates instance of fragment and set city id in arguments
+         * @param cityId city to show in fragment
+         */
         fun getInstance(cityId: Int): ForecastFragment {
             val fragment = ForecastFragment()
             val arguments = Bundle()

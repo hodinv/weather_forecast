@@ -1,8 +1,8 @@
 package com.hodinv.weatherforecast.screens.forecast
 
 import com.hodinv.weatherforecast.database.repository.ForecastRepository
-import com.hodinv.weatherforecast.database.repository.WeatherRepository
 import com.hodinv.weatherforecast.database.repository.RepositoryUpdatesProvider
+import com.hodinv.weatherforecast.database.repository.WeatherRepository
 import com.hodinv.weatherforecast.mvp.BaseMvpPresenter
 import com.hodinv.weatherforecast.service.NetworkServiceController
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -10,6 +10,7 @@ import io.reactivex.disposables.Disposable
 
 /**
  * Created by vasily on 26.03.18.
+ * Presenter for forecast screen
  */
 class ForecastPresenter(val cityId: Int,
                         private val serviceController: NetworkServiceController,
@@ -17,6 +18,9 @@ class ForecastPresenter(val cityId: Int,
                         private val weatherService: WeatherRepository,
                         private val forecastService: ForecastRepository
 ) : BaseMvpPresenter<ForecastContract.View, ForecastContract.Router>(), ForecastContract.Presenter {
+    /**
+     * Refresh forecast data
+     */
     override fun refresh() {
         serviceController.requestForecast(cityId)
     }

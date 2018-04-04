@@ -10,6 +10,7 @@ import com.hodinv.weatherforecast.utils.TempHelper
 
 /**
  * Created by vasily on 24.03.18.
+ * View holder for one of cities weather items
  */
 class PlacesListViewHolder(val view: View, presenter: PlacesListContract.Presenter) : RecyclerView.ViewHolder(view) {
     private val city: TextView = view.findViewById(R.id.txt_city)

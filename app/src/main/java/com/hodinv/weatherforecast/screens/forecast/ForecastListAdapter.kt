@@ -8,6 +8,7 @@ import com.hodinv.weatherforecast.data.ForecastItem
 
 /**
  * Created by vasily on 24.03.18.
+ * Adapter for list of forecast data
  */
 class ForecastListAdapter : RecyclerView.Adapter<ForecastListViewHolder>() {
     private var items: List<ForecastItem> = emptyList()
@@ -24,8 +25,12 @@ class ForecastListAdapter : RecyclerView.Adapter<ForecastListViewHolder>() {
         holder?.setItem(items[position])
     }
 
-    fun setForecastItems(places: List<ForecastItem>) {
-        items = ArrayList(places)
+    /**
+     * Replace forecast data with new one and refresh list
+     * @param forecastItems list of forecast data items
+     */
+    fun setForecastItems(forecastItems: List<ForecastItem>) {
+        items = ArrayList(forecastItems)
         notifyDataSetChanged()
     }
 

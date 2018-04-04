@@ -12,8 +12,9 @@ import com.hodinv.weatherforecast.database.dao.WeatherDao
  */
 class WeatherDbRepository(private val weatherDao: WeatherDao, private val placesService: PlacesDbRepository, private val notifyAboutChanges: () -> Unit) : WeatherRepository {
     /**
-     * Return list of weather info
-     * @return list of recent weather info
+     * Return weather info for certain city
+     * @param cityId id of city
+     * @return weather info record
      */
     override fun getWeatherInfo(cityId: Int): WeatherInfo {
         return weatherDao.getById(cityId) ?: WeatherInfo()
@@ -35,9 +36,8 @@ class WeatherDbRepository(private val weatherDao: WeatherDao, private val places
     }
 
     /**
-     * Return weather info for certain city
-     * @param cityId id of city
-     * @return weather info record
+     * Return list of weather info
+     * @return list of recent weather info
      */
     override fun getWeatherInfo(): List<WeatherInfo> {
         return weatherDao.getAll()

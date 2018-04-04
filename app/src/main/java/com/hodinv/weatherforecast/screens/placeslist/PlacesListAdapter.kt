@@ -8,6 +8,7 @@ import com.hodinv.weatherforecast.data.WeatherInfo
 
 /**
  * Created by vasily on 24.03.18.
+ * Adpater for cities wethaer list
  */
 class PlacesListAdapter(val presenter: PlacesListContract.Presenter) : RecyclerView.Adapter<PlacesListViewHolder>() {
     private var items: List<WeatherInfo> = emptyList()
@@ -24,6 +25,10 @@ class PlacesListAdapter(val presenter: PlacesListContract.Presenter) : RecyclerV
         holder?.setItem(items[position])
     }
 
+    /**
+     * Replace weather data with new one and refresh list
+     * @param places list of weather data items
+     */
     fun setPlaces(places: List<WeatherInfo>) {
         items = ArrayList(places)
         notifyDataSetChanged()
