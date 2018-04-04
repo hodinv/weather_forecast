@@ -7,6 +7,7 @@ import com.hodinv.weatherforecast.R
 import com.hodinv.weatherforecast.data.ForecastItem
 import com.hodinv.weatherforecast.database.DatabaseProvider
 import com.hodinv.weatherforecast.mvp.MvpFragment
+import com.hodinv.weatherforecast.service.NetworkServiceController
 import com.hodinv.weatherforecast.service.NetworkServiceControllerImpl
 import kotlinx.android.synthetic.main.fragment_forecast.*
 
@@ -44,10 +45,12 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
         adapter.setForecastItems(items.toList())
     }
 
-
+    var serviceController: NetworkServiceController? = null
     override fun createPresenter(): ForecastContract.Presenter {
+        serviceController?.close()
+        serviceController = NetworkServiceControllerImpl(activity!!)
         return ForecastPresenter(arguments?.getInt(KEY_CITY_ID) ?: -1,
-                NetworkServiceControllerImpl(activity!!),
+                serviceController!!,
                 DatabaseProvider.instance,
                 DatabaseProvider.instance.getWeatherService(),
                 DatabaseProvider.instance.getForecastService()
@@ -60,7 +63,8 @@ class ForecastFragment : MvpFragment<ForecastContract.View, ForecastContract.Rou
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter?.onDestroy()
+        serviceController?.close()
+        serviceController = null
     }
 
     override fun getRouter(): ForecastContract.Router {

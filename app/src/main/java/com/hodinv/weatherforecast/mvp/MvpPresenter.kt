@@ -25,10 +25,5 @@ interface MvpPresenter<V : MvpView, R : MvpRouter> {
      */
     fun onStop()
 
-
-    /**
-     * Stops/destroys general services used by presenter
-     */
-    fun onDestroy()
 }
 

@@ -15,11 +15,5 @@ abstract class BaseMvpPresenter<V : MvpView, R : MvpRouter> : MvpPresenter<V, R>
     override fun onStop() {
         // stub
     }
-
-    /**
-     * TODO: remove it
-     */
-    override fun onDestroy() {
-        // stub
-    }
+    
 }

@@ -91,11 +91,6 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
                 })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        serviceController.close()
-    }
-
     override fun onStop() {
         super.onStop()
         updates?.dispose()

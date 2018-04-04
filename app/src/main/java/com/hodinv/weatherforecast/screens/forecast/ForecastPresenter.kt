@@ -28,11 +28,6 @@ class ForecastPresenter(val cityId: Int,
     private var forecastSubscription: Disposable? = null
     private var updates: Disposable? = null
 
-    override fun onDestroy() {
-        super.onDestroy()
-        serviceController.close()
-    }
-
     override fun onStart() {
         super.onStart()
         forecastSubscription = weatherUpdatesProvider.getForecastUpdate()
