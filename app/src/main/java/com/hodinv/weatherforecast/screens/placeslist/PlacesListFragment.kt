@@ -68,7 +68,7 @@ class PlacesListFragment : MvpFragment<PlacesListContract.View, PlacesListContra
                     .title(R.string.new_city_title)
                     .inputType(InputType.TYPE_CLASS_TEXT)
                     .input("", "",
-                            { dialog, input ->
+                            { _, input ->
                                 // do stuff here
                                 presenter?.addCity(input.toString())
                             }).show()

@@ -15,16 +15,26 @@ import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.ConcurrentSkipListSet
 
 /**
+ * Created by vasily
  * Makes background calls to weather service and puts all weather data database
  * Call to town is performed every 10 minutes or if it was forced
  */
 class NetworkRequestsPerformer : Service(), NetworkService {
 
-
+    /**
+     * Check if fprecast reauest is runngin for certain city
+     * @param cityId id of city to check request state
+     * @return true if reauest is running
+     */
     override fun isForecastRequestRunning(cityId: Int): Boolean {
         return forecastsRunning.contains(cityId)
     }
 
+    /**
+     * Search for city by name and if found - adds it to repository with weather data
+     * @param placeName city name to perform search
+     * @return observer with result of serach, emits true if added and false if not found or already exists
+     */
     override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
         if (addingRequestIsRunning)
             return Observable.just(false)
@@ -50,10 +60,18 @@ class NetworkRequestsPerformer : Service(), NetworkService {
 
     }
 
+    /**
+     * Return observer that emits values every time forecast reauest or weather request state changes
+     * @return observer that trigger on any request state changes (start or stop)
+     */
     override fun getStateSubscription(): Observable<Unit> {
         return emitWeather
     }
 
+    /**
+     * Check if rquest for weatehr is running now
+     * @return true if request is running
+     */
     override fun isWeatherRequestRunning(): Boolean {
         return weatherRequestIsRunning || addingRequestIsRunning
     }
@@ -64,6 +82,12 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     private var emitWeather: PublishSubject<Unit> = PublishSubject.create()
 
 
+    /**
+     * Request weather for all cities that have place record in repository.
+     * If timeout not pass since last request - no request is done
+     * @param force if true - ignores timeout and perform request
+     * @return false if already running request, else - true
+     */
     override fun requestWeather(force: Boolean): Boolean {
         if (weatherRequestIsRunning)
             return false
@@ -98,7 +122,12 @@ class NetworkRequestsPerformer : Service(), NetworkService {
         emitWeather.onNext(Unit)
     }
 
-    override fun requestForecast(cityId: Int, force: Boolean): Boolean {
+    /**
+     * Request forecast for city
+     * @param cityId city to request forecast for
+     * @return false if already running requestfor this city, else - true
+     */
+    override fun requestForecast(cityId: Int): Boolean {
         if (forecastsRunning.contains(cityId))
             return false
         forecastsRunning.add(cityId)
@@ -114,7 +143,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
                     databaseProvider.getForecastService().putForecast(ForecastRecord(result.city.id, result))
                     forecastsRunning.remove(cityId)
                     notifyWeatherRequest()
-                },  {error ->
+                }, { _ ->
                     forecastsRunning.remove(cityId)
                     notifyWeatherRequest()
                 })

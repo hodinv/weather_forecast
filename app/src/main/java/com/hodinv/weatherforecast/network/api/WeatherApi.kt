@@ -8,6 +8,7 @@ import retrofit2.http.Query
 
 /**
  * Created by vasily on 18.03.18.
+ * Retrofit interface with external request definitions
  */
 interface WeatherApi {
     @GET("data/2.5/weather")

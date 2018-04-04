@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Created by vasily on 18.03.18.
+ * Helper to perform retrofit requests
  */
 class NetworkProvider(private val apiKey: String, private val lang: String) {
     private val retrofit: Retrofit = Retrofit.Builder()

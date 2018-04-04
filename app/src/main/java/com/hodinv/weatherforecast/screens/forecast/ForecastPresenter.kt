@@ -18,7 +18,7 @@ class ForecastPresenter(val cityId: Int,
                         private val forecastService: ForecastRepository
 ) : BaseMvpPresenter<ForecastContract.View, ForecastContract.Router>(), ForecastContract.Presenter {
     override fun refresh() {
-        serviceController.requestForecast(cityId, true)
+        serviceController.requestForecast(cityId)
     }
 
     private var forecastSubscription: Disposable? = null
@@ -53,7 +53,7 @@ class ForecastPresenter(val cityId: Int,
         serviceController.waitForControllerReady()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (serviceController.requestForecast(cityId, true)) {
+                    if (serviceController.requestForecast(cityId)) {
                         view?.setLoading(true)
                     }
                 })
