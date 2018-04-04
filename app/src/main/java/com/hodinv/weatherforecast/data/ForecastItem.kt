@@ -2,6 +2,7 @@ package com.hodinv.weatherforecast.data
 
 /**
  * Created by vasily on 26.03.18.
+ * Model entity
  */
 class ForecastItem {
     var dt: Long = 0L

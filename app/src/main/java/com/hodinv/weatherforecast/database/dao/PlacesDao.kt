@@ -9,6 +9,7 @@ import com.hodinv.weatherforecast.data.Place
 
 /**
  * Created by vasily on 21.03.18.
+ *  DAO definition for places
  */
 @Dao
 interface PlacesDao {

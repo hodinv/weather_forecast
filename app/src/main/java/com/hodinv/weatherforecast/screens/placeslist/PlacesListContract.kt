@@ -16,6 +16,10 @@ interface PlacesListContract {
     }
 
     interface Router : MvpRouter {
+        /**
+         * Opens forecast for city
+         * @param cityId city to show forecast for
+         */
         fun showDetail(cityId: Int)
     }
 

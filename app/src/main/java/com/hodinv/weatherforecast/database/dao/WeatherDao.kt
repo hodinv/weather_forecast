@@ -8,6 +8,7 @@ import com.hodinv.weatherforecast.data.WeatherInfo
 
 /**
  * Created by vasily on 21.03.18.
+ * DAO definition for Weather info
  */
 @Dao
 interface WeatherDao {

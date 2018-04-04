@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * Created by vasily on 21.03.18.
+ * Model entity
  */
 class MainInfo {
     var temp: Float = 0.0f

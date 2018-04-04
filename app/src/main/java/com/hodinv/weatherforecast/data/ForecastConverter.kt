@@ -5,6 +5,7 @@ import com.google.gson.Gson
 
 /**
  * Created by vasily on 26.03.18.
+ * Converter for saving Forecast in one field (saved as json)
  */
 class ForecastConverter {
     @TypeConverter

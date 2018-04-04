@@ -3,6 +3,7 @@ package com.hodinv.weatherforecast.data
 
 /**
  * Created by vasily on 18.03.18.
+ * Weather Model entity as it comes from network
  */
 class WeatherInfoFromNet : WeatherInfo() {
 

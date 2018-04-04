@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 
 /**
  * Created by vasily on 18.03.18.
+ * Weather model entity as it saved in db
  */
 @Entity
 open class WeatherInfo {

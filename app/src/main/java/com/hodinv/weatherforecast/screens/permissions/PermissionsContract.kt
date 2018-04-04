@@ -15,7 +15,14 @@ interface PermissionsContract {
     }
 
     interface Router : MvpRouter {
+        /**
+         * Opens main view - cities list with weather
+         */
         fun startPlacesList()
+
+        /**
+         * Exit app
+         */
         fun finish()
     }
 

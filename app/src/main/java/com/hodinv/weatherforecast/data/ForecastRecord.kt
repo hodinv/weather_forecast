@@ -6,6 +6,7 @@ import android.arch.persistence.room.TypeConverters
 
 /**
  * Created by vasily on 26.03.18.
+ * Forecast DB Model entity
  */
 @Entity
 @TypeConverters(ForecastConverter::class)

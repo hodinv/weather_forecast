@@ -8,6 +8,7 @@ import com.hodinv.weatherforecast.data.ForecastRecord
 
 /**
  * Created by vasily on 26.03.18.
+ * DAO definition for forecast
  */
 @Dao
 interface ForecastDao {

@@ -11,6 +11,7 @@ import com.hodinv.weatherforecast.database.dao.WeatherDao
 
 /**
  * Created by vasily on 21.03.18.
+ * Holds database meta information and entities list.
  */
 @Database(version = 7, entities = [(Place::class), (WeatherInfo::class), (ForecastRecord::class)], exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
