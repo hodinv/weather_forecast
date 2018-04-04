@@ -8,7 +8,7 @@ import com.hodinv.weatherforecast.R
 /**
  * Created by vasily
  * Base class from Fragment
- * Defines some abstract methods and links it to fragmetn lifecycle
+ * Defines some abstract methods and links it to fragment lifecycle
  */
 abstract class MvpFragment<V : MvpView, Router : MvpRouter, P : MvpPresenter<V, Router>> : Fragment() {
 
@@ -21,7 +21,7 @@ abstract class MvpFragment<V : MvpView, Router : MvpRouter, P : MvpPresenter<V, 
     abstract fun createPresenter(): P
 
     /**
-     * Return view for this fragment, usually - fragment itsef
+     * Return view for this fragment, usually - fragment itself
      * @return View
      */
     abstract fun getMvpView(): V

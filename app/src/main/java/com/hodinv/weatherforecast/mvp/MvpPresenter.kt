@@ -11,7 +11,7 @@ interface MvpPresenter<V : MvpView, R : MvpRouter> {
      */
     var view: V?
     /**
-     * link to Rounter
+     * link to Router
      */
     var router: R?
 
@@ -27,7 +27,7 @@ interface MvpPresenter<V : MvpView, R : MvpRouter> {
 
 
     /**
-     * Stops/destoys general sevvices used by presenter
+     * Stops/destroys general services used by presenter
      */
     fun onDestroy()
 }

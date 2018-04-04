@@ -22,9 +22,9 @@ import java.util.concurrent.ConcurrentSkipListSet
 class NetworkRequestsPerformer : Service(), NetworkService {
 
     /**
-     * Check if fprecast reauest is runngin for certain city
+     * Check if forecast request is running for certain city
      * @param cityId id of city to check request state
-     * @return true if reauest is running
+     * @return true if request is running
      */
     override fun isForecastRequestRunning(cityId: Int): Boolean {
         return forecastsRunning.contains(cityId)
@@ -33,7 +33,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     /**
      * Search for city by name and if found - adds it to repository with weather data
      * @param placeName city name to perform search
-     * @return observer with result of serach, emits true if added and false if not found or already exists
+     * @return observer with result of search, emits true if added and false if not found or already exists
      */
     override fun searchAndAddNewPlace(placeName: String): Observable<Boolean> {
         if (addingRequestIsRunning)
@@ -61,7 +61,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     }
 
     /**
-     * Return observer that emits values every time forecast reauest or weather request state changes
+     * Return observer that emits values every time forecast request or weather request state changes
      * @return observer that trigger on any request state changes (start or stop)
      */
     override fun getStateSubscription(): Observable<Unit> {
@@ -69,7 +69,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     }
 
     /**
-     * Check if rquest for weatehr is running now
+     * Check if request for weather is running now
      * @return true if request is running
      */
     override fun isWeatherRequestRunning(): Boolean {
@@ -125,7 +125,7 @@ class NetworkRequestsPerformer : Service(), NetworkService {
     /**
      * Request forecast for city
      * @param cityId city to request forecast for
-     * @return false if already running requestfor this city, else - true
+     * @return false if already running request for this city, else - true
      */
     override fun requestForecast(cityId: Int): Boolean {
         if (forecastsRunning.contains(cityId))

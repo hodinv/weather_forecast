@@ -10,13 +10,13 @@ import io.reactivex.Observable
 interface RepositoryUpdatesProvider {
     /**
      * Provides observable for changes in weather records
-     * @return obserbable that will emit onNext on any changes in weather
+     * @return observable that will emit onNext on any changes in weather
      */
     fun getWeatherUpdates(): Observable<Unit>
 
     /**
      * Provides observable for changes in forecast records
-     * @return observable that will emin onNext on any chanes in forecast for city, also passes cityId as parameter
+     * @return observable that will emit onNext on any changes in forecast for city, also passes cityId as parameter
      */
     fun getForecastUpdate(): Observable<Int>
 }

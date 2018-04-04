@@ -27,7 +27,7 @@ class PlacesListPresenter(private val serviceController: NetworkServiceControlle
 
     /**
      * Try add city by name
-     * @param name city name to serach and add
+     * @param name city name to search and add
      */
     override fun addCity(name: String) {
         view?.setLoading(true)

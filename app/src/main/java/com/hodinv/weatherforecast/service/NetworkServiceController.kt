@@ -9,7 +9,7 @@ import io.reactivex.Observable
  */
 interface NetworkServiceController : NetworkService {
     /**
-     * emit value when service is binded and ready to receive requests
+     * emit value when service is bound and ready to receive requests
      * @return observer that will emit one onNext and one onComplete after binding
      */
     fun waitForControllerReady(): Observable<Unit>

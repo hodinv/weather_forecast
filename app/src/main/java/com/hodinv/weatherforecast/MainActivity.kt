@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by vasily
  * Main activity. Holds all fragments.
- * Implements routers functionality. Also handles last selected forecast and opens it on resgart
+ * Implements routers functionality. Also handles last selected forecast and opens it on restart
  */
 class MainActivity : AppCompatActivity(),
         PermissionsContract.Router,
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     /**
-     * Adds current fragment ot backstack and shows new fragment
+     * Adds current fragment ot back stack and shows new fragment
      * @param newFragment fragment to show
      */
     private fun startFragmentWithStacking(newFragment: Fragment) {

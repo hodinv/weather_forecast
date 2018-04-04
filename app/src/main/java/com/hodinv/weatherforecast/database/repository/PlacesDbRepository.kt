@@ -10,7 +10,7 @@ import com.hodinv.weatherforecast.database.dao.WeatherDao
  * Implementation for places repository, using db as storage
  * @param placesDao DAO object for places
  * @param weatherDao DAO object for weather record (used for removal)
- * @param notifyAboutChanges calback to notify when places list or update time was changed
+ * @param notifyAboutChanges callback to notify when places list or update time was changed
  */
 class PlacesDbRepository(private val placesDao: PlacesDao, private val weatherDao: WeatherDao, private val notifyAboutChanges: () -> Unit) : PlacesRepository {
 

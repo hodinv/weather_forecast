@@ -57,7 +57,7 @@ interface PlacesListContract {
 
         /**
          * Try add city by name
-         * @param name city name to serach and add
+         * @param name city name to search and add
          */
         fun addCity(name: String)
     }
